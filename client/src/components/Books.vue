@@ -1,7 +1,7 @@
 <template>
   <div>
             <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                   <h1>Books</h1>
+                   <h1>Book List</h1>
 
             </vs-row>
               <br> <br>
@@ -18,14 +18,14 @@
                 </div>
             </vs-row>
                 <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                     <div class="album">
-                    {{book.album}}
+                     <div class="author">
+                    {{book.author}}
                 </div>
                 </vs-row>
 
                 <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                  <div class="artist">
-                    {{book.artist}}
+                  <div class="edition">
+                    {{book.edition}}
                 </div>
                 </vs-row>
                 <br><br>
@@ -35,7 +35,7 @@
             </div>
            </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
-               <img class = "albumImage" :src="book.albumImageURL" />
+               <img class = "coverImageURL" :src="book.coverImageURL" />
              </vs-col>
             </vs-row>
 

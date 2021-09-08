@@ -4,7 +4,7 @@ export default
 {
     getBooks()
     {
-        return Api().get(books)
+        return Api().get('books')
     },
     getBook(id)
     {

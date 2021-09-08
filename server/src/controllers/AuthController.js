@@ -7,7 +7,7 @@ function signUser(user)
 {
   const expTime = 60*60*24*7
 
-  return jwt.sign(user, config.authentication.jwtSecret, { expiresIn: expTime})
+  return jwt.sign(user, config.authentication.jwtSecret)
 }
 
 module.exports = {
@@ -16,6 +16,7 @@ module.exports = {
       console.log("register a user")
         try
         {
+            console.log(req.body)
             const user = await User.create(req.body)
             console.log("User Created :"+ user)
             res.send(user.toJSON())
@@ -48,7 +49,7 @@ module.exports = {
            }
            else
            {
-             console.log("login 1 :"+user.password)
+              console.log("login 1 :"+user.password)
               const isPasswordValid = await user.comparePassword(password)
               console.log(isPasswordValid)
               if(!isPasswordValid)

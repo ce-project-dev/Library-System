@@ -17,21 +17,13 @@ const {sequelize} = require('./models')
 
 
 require('./routes')(app)
-
+//{force: true}
 sequelize.sync()
 .then(() => {
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
   })
 })
-
-
-
-
-
-
-
-
 
 
   app.get('/showusers', (req, res) => {

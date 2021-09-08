@@ -11,6 +11,7 @@ async getByTags(req, res)
 
     const conditions1 = []
     const conditions2 = []
+    const conditions3 = []
 
 async function getIDS() 
        {  
@@ -29,17 +30,45 @@ async function getIDS()
                         conditions2[t2] = {id: book.bookID}
                         t2++                      
                     });  
+      
+      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
 
-      const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
-
-      return Promise.resolve(results);
+      return Promise.resolve(conditions2);
     }
     getIDS().then(
      async (ids) => 
-     {
-        res.send({books: ids})
+     {  
+        console.log(ids)
+        try{
+                var books = await  Book.findAll({where: { 
+                [Op.or]: ['title', 'author'].map(key =>  ({
+                    [key]: {[Op.like]: `%${req.params.id}%`}
+                }))
+            }
+        })
+
+      t3 = 0
+      books.forEach(function(book)
+                    {    
+                        var obj = {id: book.id}
+                        ids.push(obj)
+                        t3++                      
+                    });
+
+        const results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
+        
+        res.send({books: results})
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+        
       }
     )
+
+
+
 },
 
 async getByName(req, res)

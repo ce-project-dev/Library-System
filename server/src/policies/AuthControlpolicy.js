@@ -5,7 +5,8 @@ module.exports = {
     {
          const schema = Joi.object({
              email: Joi.string().email(),
-             password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{6,32}$'))
+             password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{6,32}$')),
+             role: Joi.string()
          })
          const {error, value} = schema.validate(req.body)
 
@@ -23,7 +24,8 @@ module.exports = {
                     res.status(400).send({error: 'Use a valid password!'})
                 }
                 else
-                {
+                {   
+                    console.log(JSON.stringify(issue))
                     res.status(400).send({error: 'Invalid reg info!'})
                 }
          }
