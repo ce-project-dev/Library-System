@@ -100,6 +100,7 @@ async getBurrows(req, res)
             res.status(500).send({error: "error occured when fetching burrowed books"})
         }
    },
+
 async returnBook(req, res)
    {
         try
@@ -125,6 +126,7 @@ async returnBook(req, res)
                 res.status(500).send({error: "error occured when returning the book"})
             }
    },
+
 async burrowBook(req, res)
    {
         try
@@ -170,10 +172,84 @@ async burrowBook(req, res)
    {
         try
             {
-                const books = await Book.findAll({
-                    limit: 10
-                })
-                res.send(books)
+                let books = null
+
+                if(req.query.search)
+                {   
+                    console.log("search: " + req.query.search)
+                     const tags = (req.query.search).split(" ");
+                     console.log("TAGS$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$: " + tags)
+                    const conditions1 = []
+                    const conditions2 = []
+                    const conditions3 = []
+
+                async function getIDS() 
+                       {  
+                        t1 = 0
+                        tags.forEach( function(tag) 
+                        {
+                            conditions1[t1] = {tag: tag}
+                            t1++
+                        });
+                  
+                      var books = await  Tag.findAll({where: { [Op.or]: conditions1}, distinct: 'bookID'})
+
+                      t2 = 0
+                      books.forEach(function(book)
+                                    {    
+                                        conditions2[t2] = {id: book.bookID}
+                                        t2++                      
+                                    });  
+                      
+                      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+
+                      return Promise.resolve(conditions2);
+                    }
+                    getIDS().then(
+                     async (ids) => 
+                     {  
+                        console.log(ids)
+                        try{
+                                var books = await  Book.findAll({where: { 
+                                [Op.or]: ['title', 'author'].map(key =>  ({
+                                    [key]: {[Op.like]: `%${req.query.search}%`}
+                                }))
+                            }
+                        })
+
+                      t3 = 0
+                      books.forEach(function(book)
+                                    {    
+                                        var obj = {id: book.id}
+                                        ids.push(obj)
+                                        t3++                      
+                                    });
+
+                        const results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
+
+                        console.log("########################################################################################################################################")
+                        console.log(results)
+                        console.log("########################################################################################################################################")
+
+                         console.log("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaast")
+                        res.send(results)
+                        }
+                        catch(err)
+                        {
+                            console.log(err)
+                        }
+                        
+                        console.log("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+                      }
+                    )
+                }
+                else
+                {
+                    books = await Book.findAll({ limit: 10 })
+                    res.send(books)
+                }
+                
+               
             }
         catch(err)
             {

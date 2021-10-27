@@ -5,12 +5,12 @@
       v-model="indexActive"
       :color="colorx"
       text-color="rgba(255,255,255,.6)"
-      active-text-color="rgba(255,255,255,1)"
+      active-text-color="black"
       class="myNavbar">
       <div slot="title">
 
         <vs-navbar-title>
-          <router-link to="root" color="white">Library System</router-link>
+          <router-link v-bind:to="{ path: '/root'}" color="white">Library System</router-link>
         </vs-navbar-title>
       </div>
 
@@ -37,7 +37,7 @@
   
 
   <vs-navbar-item index="5">
-    <vs-input icon="search" placeholder="Search Book" />
+    <vs-input v-model="search" icon="search" placeholder="Search Book" />
 
    
 
@@ -58,7 +58,8 @@ export default {
   {
     return {
       colorx:"#7d33ff",
-    indexActive: 0
+      indexActive: 0,
+      search: ''
     }
   },
   methods:  {
@@ -74,6 +75,25 @@ export default {
         this.$router.push(route)
       }
 
+    },
+    watch: {
+      search(value)
+      {
+        //console.log(value)
+        const route = {name: 'Books'}
+        if(this.search !== '')
+        {
+          route.query = {search: this.search}
+        }
+        this.$router.push(route).catch(()=>{});
+      },
+      '$route.query.search':{
+        immediate: true,
+        handler (value)
+        {
+          this.search = value
+        }
+      }
     }
 
 
