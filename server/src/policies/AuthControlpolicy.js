@@ -5,6 +5,7 @@ module.exports = {
     {
          const schema = Joi.object({
              email: Joi.string().email(),
+             name: Joi.string(),
              password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{6,32}$')),
              role: Joi.string()
          })

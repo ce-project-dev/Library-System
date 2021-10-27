@@ -11,8 +11,14 @@
     </vs-row>
 
     <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
+         <vs-input :success="true"  placeholder="Enter User Name" v-model="name"/>
+    </vs-row>
+
+    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
          <vs-input :success="psuc" :danger="perr" :danger-text="perrorText" type="password" autocomplete="new-password" placeholder="Enter Password" v-model="password"/>
     </vs-row>
+
+    
 <br>
 <br>
 
@@ -38,6 +44,7 @@ export default {
   {
     return {
       email: '',
+      name: '',
       password: '',
       error: null
     }
@@ -84,7 +91,8 @@ export default {
           const response = await AuthenticationService.register(
           {
             email : this.email,
-            password : this.password
+            password : this.password,
+            name : this.name
           }
         )
           this.$store.dispatch('setToken', response.data.token)

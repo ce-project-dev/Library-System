@@ -44,7 +44,8 @@ sequelize.sync()
 
   app.get('/showcopies', (req, res) => {
     var copies = sequelize.query("SELECT * FROM `copies`", { type: sequelize.QueryTypes.SELECT})
-    .then(function(users) {
+    .then(function(copies) {
+      console.log("copies: " +copies)
       res.send(JSON.stringify(copies))
     })
   })

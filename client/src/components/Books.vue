@@ -7,8 +7,8 @@
               <br> <br>
          <div v-for="book in books" :key="book.id">
 
-             <panel>
-                       <vs-row>
+        <panel>
+            <vs-row>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
                 <div>
                 <br>
@@ -38,9 +38,7 @@
                <img class = "coverImageURL" :src="book.coverImageURL" />
              </vs-col>
             </vs-row>
-
-
-            </panel>
+         </panel>
 
         <br>
         </div>
@@ -67,9 +65,7 @@ export default {
             books: null
         }
     },
-    async mounted(){
-        this.books = (await BookServices.getBooks()).data //.data is how axios returns data
-    },
+    
     methods: {
 
       navigateTo(id){
@@ -77,6 +73,14 @@ export default {
 
       }
 
+    },
+    watch: {
+        '$route.query.search': {
+            immediate: true,
+            async handler(value){
+                this.books = (await BookServices.getBooks(value)).data
+            }
+        }
     }
 
 }

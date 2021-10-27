@@ -5,6 +5,8 @@ const { Op } = require("sequelize");
 
 module.exports = {
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async getByTags(req, res)
 {   
     const tags = (req.params.id).split(" ");
@@ -71,6 +73,8 @@ async function getIDS()
 
 },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async getByName(req, res)
 {
      const name = req.params.id
@@ -78,12 +82,16 @@ async getByName(req, res)
      res.send({books: results})
 },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async getByAuthor(req, res)
 {
      const author = req.params.id
      const results = await  Book.findAll({where: {author: author }})
      res.send({books: results})
 },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async getBurrows(req, res)
    {
@@ -100,6 +108,9 @@ async getBurrows(req, res)
             res.status(500).send({error: "error occured when fetching burrowed books"})
         }
    },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async returnBook(req, res)
    {
         try
@@ -125,6 +136,9 @@ async returnBook(req, res)
                 res.status(500).send({error: "error occured when returning the book"})
             }
    },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 async burrowBook(req, res)
    {
         try
@@ -150,6 +164,8 @@ async burrowBook(req, res)
             }
    },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    async getCopies(req, res)
    {
         try
@@ -166,14 +182,85 @@ async burrowBook(req, res)
             }
    },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    async getBooks(req, res)
    {
         try
             {
-                const books = await Book.findAll({
-                    limit: 10
-                })
-                res.send(books)
+                let books = null
+
+                if(req.query.search)
+                {   
+                    console.log("search: " + req.query.search)
+                     const tags = (req.query.search).split(" ")
+                    const conditions1 = []
+                    const conditions2 = []
+                    const conditions3 = []
+
+                async function getIDS() 
+                       {  
+                        t1 = 0
+                        tags.forEach( function(tag) 
+                        {
+                            conditions1[t1] = {tag: tag}
+                            t1++
+                        });
+                  
+                      var books = await  Tag.findAll({where: { [Op.or]: conditions1}, distinct: 'bookID'})
+
+                      t2 = 0
+                      books.forEach(function(book)
+                                    {    
+                                        conditions2[t2] = {id: book.bookID}
+                                        t2++                      
+                                    });  
+                      
+                      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+
+                      return Promise.resolve(conditions2);
+                    }
+                    getIDS().then(
+                     async (ids) => 
+                     {  
+                        console.log(ids)
+                        try{
+                                var books = await  Book.findAll({where: { 
+                                [Op.or]: ['title', 'author'].map(key =>  ({
+                                    [key]: {[Op.like]: `%${req.query.search}%`}
+                                }))
+                            }
+                        })
+
+                      t3 = 0
+                      books.forEach(function(book)
+                                    {    
+                                        var obj = {id: book.id}
+                                        ids.push(obj)
+                                        t3++                      
+                                    });
+
+                        const results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
+
+                
+                        res.send(results)
+                        }
+                        catch(err)
+                        {
+                            console.log(err)
+                        }
+                        
+                
+                      }
+                    )
+                }
+                else
+                {
+                    books = await Book.findAll({ limit: 10 })
+                    res.send(books)
+                }
+                
+               
             }
         catch(err)
             {
@@ -182,10 +269,13 @@ async burrowBook(req, res)
             }
    },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    async storeBook(req, res)
    {
         try
         {   
+            console.log(req.body)
             const tags = (req.body.tags).split(",");
             
             const book = await Book.create(req.body)
@@ -199,8 +289,8 @@ async burrowBook(req, res)
             {
                 try
                 {
-                    const copy = await Copy.create({bookID: id, userID: null, title: title })
-                    console.log("store a copy: "+ copy.title)
+                    const copy = await Copy.create({bookID: id, userID: null, title: title})
+                    console.log("store a copy: "+ copy)
                 }
             catch(err)
                 {
@@ -233,14 +323,47 @@ async burrowBook(req, res)
         }
    },
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    async getBook(req, res)
    {
        try
        {
+        let copies = null
         console.log(req.params.id)
-        const book = await Book.findByPk(req.params.id)
-        console.log("store a Book: "+ book)
-        res.send(book)
+        
+
+                async function getBook()
+                       {  
+                        
+                  
+                     const book = await Book.findByPk(req.params.id)  
+                     console.log("here 1st: "+ book)          
+                     return Promise.resolve(book);
+                    }
+                    getBook().then(
+                     async (book) => 
+                     {  
+                        //console.log(book)
+                        try
+                        {
+                                 copies = await  Copy.findAll({where: {bookID: book.id, available: true} })   
+                                 res.send({"book": book, "copies": copies})                   
+                        }
+                        catch(err)
+                        {
+                            console.log(err)
+                        }
+                        
+                
+                      }
+                    )
+
+
+
+       
+        
        }
        catch(err)
        {
@@ -248,6 +371,11 @@ async burrowBook(req, res)
         res.status(500).send({error: "error occured when getting lyrics"})
        }
    },
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
    async putBook(req, res)
    {
@@ -297,4 +425,4 @@ async burrowBook(req, res)
    }
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
