@@ -15,7 +15,8 @@ module.exports = {
      {
       console.log("register a user")
         try
-        {
+        {   
+
             console.log(req.body)
             const user = await User.create(req.body)
             console.log("User Created :"+ user)
@@ -59,7 +60,7 @@ module.exports = {
               else
               {
                 const response = user.toJSON()
-                console.log("User login :"+ response)
+                console.log("User login :"+ response.id + " " + response.email)
                 const token = signUser(response.id);
                 const expTime = 60*60*24*7
                 res.cookie('jwt', token, { httpOnly: true, maxAge: expTime});

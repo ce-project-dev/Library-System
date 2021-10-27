@@ -7,8 +7,8 @@
               <br> <br>
          <div v-for="book in books" :key="book.id">
 
-             <panel>
-                       <vs-row>
+        <panel>
+            <vs-row>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
                 <div>
                 <br>
@@ -38,9 +38,7 @@
                <img class = "coverImageURL" :src="book.coverImageURL" />
              </vs-col>
             </vs-row>
-
-
-            </panel>
+         </panel>
 
         <br>
         </div>
