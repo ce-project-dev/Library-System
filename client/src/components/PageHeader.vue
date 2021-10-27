@@ -10,7 +10,7 @@
       <div slot="title">
 
         <vs-navbar-title>
-          <router-link to="root" color="white">Tab Tracker</router-link>
+          <router-link to="root" color="white">Public Library</router-link>
         </vs-navbar-title>
       </div>
 

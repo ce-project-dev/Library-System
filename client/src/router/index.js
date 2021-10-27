@@ -11,6 +11,7 @@ import Restricted from '@/components/Restricted'
 //import PageHeader from '@/components/pageHeader'
 import Test from '@/components/Test'
 import Test2 from '@/components/Test2'
+import Signup from '@/components/Signup' 
 Vue.use(Router)
 
 import store from '@/store/store.js'
@@ -57,12 +58,11 @@ const router = new Router({
       name: 'Test2',
       component: Test2
     }
-    /*
-    , {
-      path: '/pageHeader',
-      name: 'PageHeader',
-      component: PageHeader
-    } */
+    ,{
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
+    } 
 
   ]
 })
