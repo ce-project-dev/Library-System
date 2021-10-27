@@ -10,16 +10,16 @@
       <div slot="title">
 
         <vs-navbar-title>
-          <router-link to="root" color="white">Tab Tracker</router-link>
+          <router-link to="root" color="white">Library System</router-link>
         </vs-navbar-title>
       </div>
 
       <vs-navbar-item index="0" >
-        <router-link to="root">Home</router-link>
+        <a href="/#/root">Home</a>
       </vs-navbar-item>
 
       <vs-navbar-item index="1">
-        <router-link to="books">Browse</router-link>
+        <a href="/#/books">Book List</a>
       </vs-navbar-item>
 
       <vs-navbar-item index="2">
@@ -27,16 +27,19 @@
       </vs-navbar-item>
 
       <vs-navbar-item index="3">
-        <router-link v-if="!$store.state.isLoggedin" to="login">Login</router-link>
+         <a href="/#/login" v-if="!$store.state.isLoggedin">Log In!</a>
       </vs-navbar-item>
 
-      <vs-navbar-item index="4">
-
-         <router-link v-if="$store.state.isLoggedin" @click.native="logout" to="root">Logout</router-link>
+      <vs-navbar-item index="3">
+         <router-link v-if="$store.state.isLoggedin" @click.native="logout" v-bind:to="{ path: '/login'}">Logout</router-link>
       </vs-navbar-item>
+
+  
 
   <vs-navbar-item index="5">
     <vs-input icon="search" placeholder="Search Book" />
+
+   
 
  </vs-navbar-item>
 
@@ -54,7 +57,7 @@ export default {
   data()
   {
     return {
-      colorx:'primary',
+      colorx:"#7d33ff",
     indexActive: 0
     }
   },

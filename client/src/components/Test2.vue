@@ -1,34 +1,28 @@
-  <template>
-    <div class="grid">
-      <vs-row>
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Default {{ index + 1 }}
-        </vs-col>
-      </vs-row>
+<template>
+  <div>
+    <vs-navbar collapse v-model="activeItem" class="nabarx">
+      <div slot="title">
+        <vs-navbar-title>
+          Hello world
+        </vs-navbar-title>
+      </div>
 
-      <vs-row justify="center">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Center {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-
-      <vs-row justify="flex-end">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Flex-end {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-
-
-      <vs-row justify="space-around">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Space-around {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-
-      <vs-row justify="space-between">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Space-between {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-    </div>
-  </template>
+      <vs-navbar-item index="0">
+        <a href="#">Home</a>
+      </vs-navbar-item>
+      <vs-navbar-item index="1">
+        <a href="#">News</a>
+      </vs-navbar-item>
+      <vs-navbar-item index="2">
+        <a href="#">Update</a>
+      </vs-navbar-item>
+    </vs-navbar>
+  </div>
+</template>
+<script>
+export default {
+  data:()=>({
+    activeItem: 0
+  })
+}
+</script>
