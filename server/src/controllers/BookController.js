@@ -140,10 +140,12 @@ async returnBook(req, res)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async burrowBook(req, res)
-   {
+   {    console.log("burrow")
         try
-            {
+            {   
+                console.log("burrow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + req.body)
                 const copy = req.params.id
+
                 const user = req.body.userID
 
                 const burrow = await Burrow.create({copyID: copy, userID: user, inDate: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)})

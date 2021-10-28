@@ -45,7 +45,7 @@
         </div>  
         
                 <div  v-for="copy in copies" :key="copy.id" >
-                      <vs-button v-if="$store.state.isLoggedin" class="burrowBook" vs-type="filled" @click ="burrow(copy.id)">
+                      <vs-button v-if="$store.state.isLoggedin" class="burrowBook" vs-type="filled" @click ="burrow(copy.id, 123)">
                      Burrow This Copy
                     </vs-button>
                      <br><br>
@@ -65,6 +65,7 @@
 import Panel from './Panel.vue'
 import BookServices from '@/services/BookServices'
 import store from '@/store/store.js'
+import AuthenticationService from '@/services/AuthenticationService.js'
 
 export default {
    data(){
@@ -91,6 +92,22 @@ export default {
         console.log(cID)
 
         console.log(store.getters.getState.user.id)
+
+
+      try
+      {
+           const response = await AuthenticationService.burrow( {userID: store.getters.getState.user.id}, cID)
+      }
+      catch (error)
+      {
+          console.log(error)
+      }
+
+
+
+
+
+
       }
   }
 }
