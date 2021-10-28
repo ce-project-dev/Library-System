@@ -110,8 +110,11 @@ export default {
 
         )
           this.$store.dispatch('setToken', response.data.token)
-          this.$store.dispatch('setUser', response.data.user)
+          this.$store.dispatch('setUser', response.data.user.id)
           this.$store.dispatch('setRole', response.data.user.role)
+
+          this.$router.push({ path: 'home' })
+
           
         }
         

@@ -2,9 +2,9 @@ import Api from '@/services/Api'
 
 export default
 {
-    getBooks()
+    getBooks(search)
     {
-        return Api().get('books')
+        return Api().get('books', {params:{search: search}})
     },
     getBook(id)
     {
@@ -13,6 +13,10 @@ export default
     createBook(book)
     {
         return Api().post('books', book)
+    },
+    searchBook(book)
+    {
+        return Api().get('bytags')
     }
 }
 

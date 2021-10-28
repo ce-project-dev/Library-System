@@ -1,34 +1,15 @@
-  <template>
-    <div class="grid">
-      <vs-row>
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Default {{ index + 1 }}
-        </vs-col>
-      </vs-row>
+<template lang="html">
+  <div class="con-example-images">
+    <vs-images>
+      <vs-image :key="index" :src="`https://picsum.photos/400/400?image=2${index}`" v-for="(image, index) in 9" />
+      <vs-image :key="index" :src="`https://picsum.photos/400/400?image=1${index}`" v-for="(image, index) in 7" />
+    </vs-images>
+  </div>
+</template>
 
-      <vs-row justify="center">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Center {{ index + 1 }}
-        </vs-col>
-      </vs-row>
+<script>
+export default {
 
-      <vs-row justify="flex-end">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Flex-end {{ index + 1 }}
-        </vs-col>
-      </vs-row>
+}
+</script>
 
-
-      <vs-row justify="space-around">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Space-around {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-
-      <vs-row justify="space-between">
-        <vs-col :key="index" v-for="col,index in 3" w="2">
-          Space-between {{ index + 1 }}
-        </vs-col>
-      </vs-row>
-    </div>
-  </template>
