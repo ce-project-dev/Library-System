@@ -10,7 +10,9 @@
       <div slot="title">
 
         <vs-navbar-title>
+
           <router-link v-bind:to="{ path: '/root'}" color="white">Library System</router-link>
+
         </vs-navbar-title>
       </div>
 

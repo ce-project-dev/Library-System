@@ -39,12 +39,15 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING
         },
         name : {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            // default: 'John Smith'
         },
         role : {
+            // default: 'user',
             type: DataTypes.STRING
         },
         dueDate : {
+            // default: '2 weeks',
             type: DataTypes.STRING
         }
     },{

@@ -1,5 +1,22 @@
 <template>
 <div>
+  <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
+  <b-form @submit="login" v-if="show"></b-form>
+    <b-form-group
+      id="input-group-1"
+      label = "Email"
+      label-for = "input-1"
+      description="Enter Your Email"
+    >
+      <b-form-input
+        id = "input-1"
+        v-model="email"
+        type="email"
+        placeholder="Enter Your Email"
+        required
+      ></b-form-input>
+    </b-form-group>
+  </vs-row>
 
 <h1>Login!</h1>
 <br>
@@ -26,6 +43,8 @@
 
 </div>
 </template>
+
+
 
 <script>
 
@@ -78,6 +97,7 @@ export default {
   methods: {
   async login()
       {
+        
         this.error = null
         console.log("login");
         try
@@ -87,13 +107,17 @@ export default {
             email : this.email,
             password : this.password
           }
+
         )
           this.$store.dispatch('setToken', response.data.token)
           this.$store.dispatch('setUser', response.data.user.id)
           this.$store.dispatch('setRole', response.data.user.role)
+
           this.$router.push({ path: 'home' })
+
           
         }
+        
         catch(error)
         {
 
