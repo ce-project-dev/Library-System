@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+    <h2>Sign Up with your credentials</h2>
     <b-form @submit="onSubmit" v-if="show" oninput='up2.setCustomValidity(up2.value!=up.value ?"Passwords do not match":"")'>
 
       <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> 
@@ -32,6 +32,23 @@
         ></b-form-input>
       </b-form-group>
       </vs-row>
+
+      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
+       <b-form-group
+        id="input-group-1"
+        
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.enroll"
+          type="String"
+          placeholder="Enroll number"
+          required
+        ></b-form-input>
+      </b-form-group>
+      </vs-row>
+
 
       <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> 
       <b-form-group

@@ -23,7 +23,7 @@
       </vs-navbar-item>
 
       <vs-navbar-item index="2">
-        <router-link v-if="!$store.state.isLoggedin" to="register">Sign Up!</router-link>
+        <router-link v-if="!$store.state.isLoggedin" to="signup">Sign Up!</router-link>
       </vs-navbar-item>
 
       <vs-navbar-item index="3">

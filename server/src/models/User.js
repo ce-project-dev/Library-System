@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
-const Promise = require('bluebird')
+const Promise = require('bluebird');
+// const { toDefaultValue } = require('sequelize/types/lib/utils');
 const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
 
 function hashPassword (user, options)
@@ -38,17 +39,27 @@ module.exports = (sequelize, DataTypes) =>
         password : {
             type: DataTypes.STRING
         },
-        name : {
-            type: DataTypes.STRING,
+        fname : {
+            type: DataTypes.STRING
             // default: 'John Smith'
+        },
+        lname : {
+            type: DataTypes.STRING
+        },
+        enroll : {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false
         },
         role : {
             // default: 'user',
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            defaultValue: 'user'
         },
         dueDate : {
             // default: '2 weeks',
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            defaultValue: null
         }
     },{
         hooks: {
