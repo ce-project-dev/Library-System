@@ -3,15 +3,15 @@
       <h1>Create</h1>
 
     <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="Title"  v-model="book.title"/>
+        <vs-input  :success="true"  placeholder="title"  v-model="book.title"/>
     </vs-row>
 
     <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="Author"  v-model="book.artist"/>
+        <vs-input  :success="true"  placeholder="Artist"  v-model="book.artist"/>
     </vs-row>
 
     <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="Category"  v-model="book.genre"/>
+        <vs-input  :success="true"  placeholder="genre"  v-model="book.genre"/>
     </vs-row>
 
     <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">

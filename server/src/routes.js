@@ -13,13 +13,15 @@ module.exports = (app) =>
     app.get('/books/:id', bookController.getBook)
     app.get('/burrow', bookController.getBurrows)
     app.get('/copy', bookController.getCopies)
+    app.get('/burrowed/:id', bookController.getBurrowed)
 
     app.get('/byname/:id', bookController.getByName)
     app.get('/byauthor/:id', bookController.getByAuthor)
     app.get('/bytags/:id', bookController.getByTags)
 
     app.put('/books/:id', bookController.putBook)
-    app.put('/burrow/:id', bookController.returnBook)
+    app.put('/burrow', bookController.returnBook)
+    app.delete('/burrow/:id', bookController.deleteCopy)
 }
 
 /*

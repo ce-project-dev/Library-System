@@ -17,6 +17,28 @@ export default
     searchBook(book)
     {
         return Api().get('bytags')
+    },
+    burrow (credentials, id)
+    {   
+        let url = 'burrow/' + id
+        return Api().post(url, credentials)
+    },
+    burrowedBooks (id)
+    {   
+        let url = 'burrowed/'+id
+        return Api().get(url)
+    },
+    returnCopy(copy)
+    {   
+        console.log(copy)
+        return Api().put(`burrow`, copy)
     }
+    ,
+    removeCopy(copy, book)
+    {   
+        console.log(book)
+        return Api().delete(`burrow/${copy}`, {data: {book}})
+    }
+
 }
 

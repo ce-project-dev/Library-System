@@ -32,6 +32,10 @@
                 <vs-button class="viewBook" vs-type="filled" @click ="navigateTo(book.id)">
                 View
                 </vs-button>
+                <br> <br>
+                <vs-button class="viewBook" vs-type="filled" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')">
+                Add Copy
+                </vs-button>
             </div>
            </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
