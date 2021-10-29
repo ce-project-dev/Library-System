@@ -24,6 +24,7 @@ module.exports = {
         }
         catch (err)
         {
+            console.log(err)
             console.log("Error caught at register. Unique emails.")
             res.status(400).send({message: `This Email is in use!`})
         }

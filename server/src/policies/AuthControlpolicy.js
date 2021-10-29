@@ -5,8 +5,10 @@ module.exports = {
     {
          const schema = Joi.object({
              email: Joi.string().email(),
-             name: Joi.string(),
              password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{6,32}$')),
+             fname: Joi.string(),
+             lname: Joi.string(),             
+             enroll: Joi.string(),
              role: Joi.string()
          })
          const {error, value} = schema.validate(req.body)

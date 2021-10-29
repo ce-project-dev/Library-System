@@ -1,6 +1,6 @@
 <template>
 <div>
-  <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
+  <!--<vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
   <b-form @submit="login" v-if="show"></b-form>
     <b-form-group
       id="input-group-1"
@@ -16,7 +16,7 @@
         required
       ></b-form-input>
     </b-form-group>
-  </vs-row>
+  </vs-row>/-->
 
 <h1>Login!</h1>
 <br>

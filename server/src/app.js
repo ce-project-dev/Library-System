@@ -17,7 +17,7 @@ const {sequelize} = require('./models')
 
 
 require('./routes')(app)
-//{force: true}
+//{force: true} 
 sequelize.sync()
 .then(() => {
   app.listen(port, () => {
