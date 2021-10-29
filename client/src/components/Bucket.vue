@@ -25,13 +25,15 @@
 
                 <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
                   <div class="edition">
-                    {{book.edition}}
+                    {{book.edition}} {{copies.length}}
                 </div>
                 </vs-row>
                  <br> <br>
                 <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
                    
-               
+                 <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user') && ($store.state.books.length == 1) && (copies.length != 1)"  class="burrowBook" vs-type="filled" @click ="dropBook()">
+                     Drop Book 
+                </vs-button>
 
 
                 </vs-row>
@@ -68,25 +70,51 @@ export default {
         return{
             results: {},
             books: [],
-            copies: []
+            copies: [],
+            burrows: {}
         }
     },
     async mounted()
-    {   console.log("works")
+    {   
         //this.results = {h:"123"}
-       this.results = (await  BookServices.burrowedBooks (this.$store.state.user.id)).data
-     
-      console.log("RESULTS: "+ this.results)
+      
+         this.results = (await  BookServices.burrowedBooks (this.$store.state.user.id)).data
+        
 
       //this.copies = this.results.copies
       //console.log("this books: "+ this.book)
       this.$store.dispatch('setBooks', this.results.results)
       this.$store.dispatch('setDueDates', this.results.due)
-     // console.log(this.results)
+
+        
+    console.log("this books: "+ (this.$store.state.books[0].id))
+   
+        if(this.$store.state.books.length == 1)
+        {
+            this.copies = [(await  BookServices.burrowedCopies ({userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})).data.lended]
+            console.log("current copies: " + this.copies)
+        }
+    
+        
+      console.log("here")
     },
    
   methods: {
-  
+
+async dropBook()
+    {
+          //console.log("drop :" +this.$store.state.books[0].id)
+          //console.log("drop :" +this.$store.state.user.id)
+        try
+        {
+            const response = await BookServices.dropBook( {userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})
+        }
+        catch (error)
+        {
+            console.log(error)
+        }
+        this.$store.dispatch('setBooks', [])
+    }
   },
   components: {
         Panel,

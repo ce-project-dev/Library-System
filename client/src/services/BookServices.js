@@ -38,6 +38,23 @@ export default
     {   
         console.log(book)
         return Api().delete(`burrow/${copy}`, {data: {book}})
+    },
+    dropBook(copy)
+    {   
+        console.log(copy)
+        return Api().put(`drop`, copy)
+    },
+    lendCopy(copyID)
+    {
+        return Api().put(`lend/${copyID}`)
+    },
+    returnBook(copy)
+    {
+        return Api().put(`return`, copy)
+    },
+    burrowedCopies (book)
+    {
+        return Api().get(`burrowedCopies/${JSON.stringify(book)}`)
     }
 
 }

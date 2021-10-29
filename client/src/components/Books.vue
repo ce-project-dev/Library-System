@@ -83,6 +83,7 @@ export default {
             immediate: true,
             async handler(value){
                 this.books = (await BookServices.getBooks(value)).data
+                console.log("books :" + this.books)
             }
         }
     }

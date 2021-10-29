@@ -4,6 +4,72 @@ const { Op } = require("sequelize");
 
 
 module.exports = {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async getBurrowedCopies(req, res)
+{   
+    console.log("bodyyyyyyyyyyy: " + (JSON.parse(req.params.id).userID))
+    const conditions = JSON.parse(req.params.id)
+     try
+         {
+            const copy = await  Copy.findAll({where: {bookID: conditions.bookID, userID: conditions.userID, lended: true} })  
+            res.send({lended: copy}) 
+         }
+    catch(err)
+          { 
+            //res.send({lended: copy}) 
+             console.log(err)
+         }
+}
+,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async lendCopy(req, res)
+{       
+    console.log("lend: "+ req.params.id )
+    try
+    {
+         const copy = await Copy.update({lended: true},{ where: { id: req.params.id } } )
+         res.send({lend: copy})
+    }
+
+    catch(error)
+    {
+        console.log("Lending error: "+ error)
+        res.status(500).send({error: "error occured when lending the book"})
+    }
+}
+    
+,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async dropBook(req, res)
+   {
+         try
+            {
+
+             console.log("copy: "+ req.body.bookID)
+             console.log("user: "+ req.body.userID)
+             
+
+                const book = await Burrow.update(
+                    {returned: true},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, returned: false} }
+                  )
+
+                await Copy.update(
+                    {available: true, userID: null},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, available: false} }
+                  )
+
+                console.log("book dropped from bucket")
+                res.send({message: "book dropped from bucket"})
+            }
+        catch(err)
+            {
+                console.log("Book drop error "+ err)
+                res.status(500).send({error: "error occured when droppin the book"})
+            }
+   },
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -225,7 +291,7 @@ async deleteCopy(req, res)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async returnBook(req, res)
+async restoreCopy(req, res)
    {
         try
             {
@@ -254,6 +320,36 @@ async returnBook(req, res)
             }
    },
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async returnBook(req, res)
+   {
+        try
+            {
+
+             //console.log("copy: "+ req.body.bookID)
+             //console.log("user: "+ req.body.userID)
+             
+
+                const book = await Burrow.update(
+                    {returned: true},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, returned: false, copyID: req.body.copyID} }
+                  )
+
+                await Copy.update(
+                    {available: true, userID: null, lended: false},
+                    { where: { id: req.body.copyID} }
+                  )
+
+                console.log("book returned: ")
+                res.send({message: "book returned"})
+            }
+        catch(err)
+            {
+                console.log("Burrow return error "+ err)
+                res.status(500).send({error: "error occured when returning the book"})
+            }
+   },
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async burrowBook(req, res)
