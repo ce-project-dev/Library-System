@@ -1,43 +1,50 @@
 <template>
   <div>
-      <h1>Create</h1>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="title"  v-model="book.title"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="Artist"  v-model="book.artist"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="genre"  v-model="book.genre"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="album"  v-model="book.album"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="albumImageURL"  v-model="book.albumImageURL"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="youtubeID"  v-model="book.youtubeID"/>
-     </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="lyrics"  v-model="book.lyrics"/>
-    </vs-row>
-
-    <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-        <vs-input  :success="true"  placeholder="tab"  v-model="book.tab"/>
-    </vs-row>
-          <div class = "error" v-html='error'/>
-
-
-        <vs-button vs-type="filled" @click = 'create'>Create</vs-button>
-
+      <h1>Add Book</h1>
+        <b-container class="bv-example-row">
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.title" placeholder="Title">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.author" placeholder="Author">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.edition" placeholder="Edition">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.copies" placeholder="Number of copies">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.tags" placeholder="Keywords">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+            <b-form-input v-model = "book.coverImageURL" placeholder="Cover Image URL">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        
+        </b-container>
+    
+    <div class = "error" v-html='error'/>
+    <div >
+    <b-button variant="success" @click = 'create'>Add Book</b-button>
+    </div>
 
   </div>
 </template>
@@ -53,13 +60,11 @@ export default
         return {
             book: {
             title :null ,
-            artist : null,
-            genre : null,
-            album : null,
-            albumImageURL: null,
-            youtubeID: null,
-            lyrics:  null,
-            tab:  null
+            author: null,
+            edition: null,
+            copies: null,
+            tags: null,
+            coverImageURL:  null
             },
             error: null
 

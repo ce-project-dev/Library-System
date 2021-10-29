@@ -7,6 +7,7 @@ import Books from '@/components/Books'
 import CreateBook from '@/components/CreateBook'
 import VieweBook from '@/components/VieweBook'
 import Restricted from '@/components/Restricted'
+import Signup from '@/components/Signup'
 
 //import PageHeader from '@/components/pageHeader'
 import Test from '@/components/Test'
@@ -56,6 +57,10 @@ const router = new Router({
       path: '/test2',
       name: 'Test2',
       component: Test2
+    },{
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
     }
     /*
     , {
