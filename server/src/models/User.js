@@ -28,6 +28,14 @@ function hashPassword (user, options)
 module.exports = (sequelize, DataTypes) =>
 {
     const User = sequelize.define('User',    {
+        fname : {
+            type: DataTypes.STRING,
+            // default: 'John Smith'
+        },
+        lname : {
+            type: DataTypes.STRING,
+            // default: 'John Smith'
+        },
         email : {
             type: DataTypes.STRING,
            unique: {
@@ -35,13 +43,14 @@ module.exports = (sequelize, DataTypes) =>
                 msg: 'Oops. Looks like you already have an account with this email address. Please try to login.'
                  }
         },
-        password : {
-            type: DataTypes.STRING
-        },
-        name : {
+        enroll : {
             type: DataTypes.STRING,
             // default: 'John Smith'
         },
+        password : {
+            type: DataTypes.STRING
+        },
+        
         role : {type: DataTypes.STRING, defaultValue:"user" },
 
         dueDate : {

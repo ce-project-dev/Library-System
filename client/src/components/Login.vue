@@ -3,7 +3,7 @@
 
 <h1>Login!</h1>
 
-  <b-form @submit="login" >
+  <!-- <b-form @click="login" > -->
     <b-row class="justify-content-md-center" align-h="center"> 
             <b-col col md="2">
             <b-form-input
@@ -36,9 +36,9 @@
     </b-row>
     <br>
 
-    <b-button type="submit" variant="primary">Log In</b-button>
+    <b-button @click="login" variant="primary">Log In</b-button>
   
-  </b-form>
+  <!--</b-form> -->
 
 
 

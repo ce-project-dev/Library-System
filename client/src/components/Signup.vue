@@ -2,7 +2,6 @@
   <div>
         
   
-    <b-form @submit="register" v-if="show" >
 
         <b-row class="justify-content-md-center" align-h="center"> 
             <b-col col md="2">
@@ -14,6 +13,12 @@
         <b-row class="justify-content-md-center" align-h="center"> 
             <b-col col md="2">
             <b-form-input v-model = "form.lname" placeholder="Last Name">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center"> 
+            <b-col col md="2">
+            <b-form-input v-model = "form.enroll" placeholder="Enroll Number">
             </b-form-input>
             </b-col>
         </b-row>
@@ -73,7 +78,7 @@
 
       
       <br>
-      <b-button type="submit" variant="primary">Sign Up</b-button>
+      <b-button @click="register" variant="primary">Sign Up</b-button>
       <div>
       <transition name="fade">
         <div class = "error"  v-if="error" v-html='error'/>
@@ -81,7 +86,7 @@
       </div>
 
       
-    </b-form>
+ 
     <!--<b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
@@ -96,6 +101,7 @@ import AuthenticationService from '@/services/AuthenticationService.js'
         form: {
           fname: '',
           lname: '',
+          enroll: '',
           email: '',
           password: '',
           c_password: ''
@@ -149,8 +155,8 @@ import AuthenticationService from '@/services/AuthenticationService.js'
             fname: this.form.fname,
             lname: this.form.lname,
             email : this.form.email,
-            password : this.form.password,
-            name : this.name
+            enroll : this.form.enroll,
+            password : this.form.password
           }
         )
           this.$store.dispatch('setToken', response.data.token)
