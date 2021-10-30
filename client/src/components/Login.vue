@@ -100,7 +100,8 @@ export default {
           this.$store.dispatch('setRole', response.data.user.role)
           this.$store.dispatch('setBooks', response.data.results)
           this.$store.dispatch('setDueDates', response.data.due)
-          
+          console.log("Token :" + response.data.token)
+
           if(response.data.user.role == 'admin')
           {
             console.log("admin")
@@ -110,10 +111,11 @@ export default {
           {
             console.log("user")
             this.$router.push({ path: 'root' })
+            
           }
 
  
-          
+      
         }
         catch(error)
         {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Bucket from '@/components/Bucket'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Books from '@/components/Books'
@@ -22,8 +22,8 @@ const router = new Router({
  routes: [
     {
       path: '/root',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Bucket',
+      component: Bucket
     },{
       path: '/register',
       name: 'Register',

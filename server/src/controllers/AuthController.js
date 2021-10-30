@@ -9,6 +9,7 @@ const config = require('../config/config')
 function signUser(user)
 {
   const expTime = 60*60*24*7
+  console.log("sign token: " + JSON.stringify(user))
 
   return jwt.sign(user, config.authentication.jwtSecret)
 }
@@ -90,7 +91,7 @@ module.exports = {
                                       });
                       
                       //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
-                      console.log("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+                      //console.log("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                       console.log(ids)
 
                       return Promise.resolve(ids);
@@ -103,7 +104,7 @@ module.exports = {
                         try
                         {
                              results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
-                             console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                            // console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                              console.log(ids)
                         }
                         catch(error)
@@ -114,9 +115,10 @@ module.exports = {
                           //console.log(ids)
                           const response = user.toJSON()
                           console.log("User login :"+ response.id + " " + response.email)
-                          const token = signUser(response.id);
+                          const token = signUser(response);
                           const expTime = 60*60*24*7
                           res.cookie('jwt', token, { httpOnly: true, maxAge: expTime});
+                          //res.cookie('role', user.role, { httpOnly: true, maxAge: expTime});
                           res.send({user: response, token: token, results: results, due: dueDates })
 
                       /*
