@@ -28,7 +28,7 @@ module.exports = (app) =>
     app.put('/return', requireAuth,checkadmin, bookController.returnBook) //admin
     app.get('/addCopy',requireAuth, checkadmin, bookController.addCopy)     //admin
 
-    app.delete('/burrow/:id',requireAuth, bookController.deleteCopy) // admin
+    app.delete('/burrow/:id',requireAuth, checkadmin, bookController.deleteCopy) // admin
 }
 
 /*
