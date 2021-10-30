@@ -5,30 +5,30 @@ const { requireAuth, checkadmin, checkuser } = require('./middleware/authMiddlew
 
 module.exports = (app) =>
 {
-    app.post('/register',policies.register, authController.register)
-    app.post('/login', authController.login)
-    app.post('/books', bookController.storeBook)
-    app.post('/burrow/:id', requireAuth, checkuser, bookController.burrowBook)
+    app.post('/register',policies.register, authController.register)    // all
+    app.post('/login', authController.login)    // all
+    app.post('/books', bookController.storeBook)    // all
+    app.post('/burrow/:id', requireAuth, checkuser, bookController.burrowBook) /// user
 
-    app.get('/books',  bookController.getBooks)
-    app.get('/books/:id', bookController.getBook)
-    app.get('/burrow',requireAuth, bookController.getBurrows)
-    app.get('/copy', requireAuth, bookController.getCopies)
-    app.get('/burrowed/:id', requireAuth, bookController.getBurrowed)
+    app.get('/books',  bookController.getBooks) // all
+    app.get('/books/:id', bookController.getBook)   // all
+    app.get('/burrow',requireAuth, bookController.getBurrows)   // login
+    app.get('/copy', requireAuth, bookController.getCopies)// login
+    app.get('/burrowed/:id', requireAuth, bookController.getBurrowed)// login
     app.get('/burrowedCopies/:id', requireAuth, bookController.getBurrowedCopies)
 
-    app.get('/byname/:id', bookController.getByName)
-    app.get('/byauthor/:id', bookController.getByAuthor)
-    app.get('/bytags/:id', bookController.getByTags)
+    app.get('/byname/:id', bookController.getByName) // all
+    app.get('/byauthor/:id', bookController.getByAuthor) // all
+    app.get('/bytags/:id', bookController.getByTags) // all
 
-    app.put('/books/:id', requireAuth, bookController.putBook)
-    app.put('/burrow',requireAuth, bookController.restoreCopy)
-    app.put('/drop',requireAuth,checkuser, bookController.dropBook)
-    app.put('/lend/:id',requireAuth, bookController.lendCopy)
-    app.put('/return', requireAuth, bookController.returnBook)
-    app.get('/addCopy',requireAuth, bookController.addCopy)
+    app.put('/books/:id', requireAuth, bookController.putBook) // login
+    app.put('/burrow',requireAuth, bookController.restoreCopy)// login
+    app.put('/drop',requireAuth,checkuser, bookController.dropBook) // user
+    app.put('/lend/:id',requireAuth,checkadmin, bookController.lendCopy) //admin
+    app.put('/return', requireAuth,checkadmin, bookController.returnBook) //admin
+    app.get('/addCopy',requireAuth, checkadmin, bookController.addCopy)     //admin
 
-    app.delete('/burrow/:id',requireAuth, bookController.deleteCopy)
+    app.delete('/burrow/:id',requireAuth, bookController.deleteCopy) // admin
 }
 
 /*

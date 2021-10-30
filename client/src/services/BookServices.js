@@ -49,15 +49,15 @@ export default
     },
     lendCopy(copyID, token) //admin
     {
-        console.log("TOKENNNNNNNNNNNNN: " + token)
-        let url = 'lend/'+copyID
-        return Api().put(url, { headers: { 'jwt': token }});
+        console.log("TOKENNNNNNNNNNNNN1111111111111: " + token)
+        
+        return Api().put(`lend/${copyID}`,{}, { headers: { 'jwt': token }});
     },
     returnBook(copy,token) // admin
     {
         console.log("TOKENNNNNNNNNNNNN: " + token)
-        let url = 'return/'+copy
-        return Api().put(url, { headers: { 'jwt': token }});
+        
+        return Api().put(`return`,copy, { headers: { 'jwt': token }});
     },
     burrowedCopies (book,token)// user
     {
