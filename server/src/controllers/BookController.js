@@ -290,17 +290,18 @@ async getBurrows(req, res)
 
 async deleteCopy(req, res)
 {
-    console.log("Delete: " + JSON.stringify(req.body))
+    console.log("Delete: " + JSON.parse(req.params.id))
+    const copy = JSON.parse(req.params.id)
     try
     {   
         const book = req.body.book
-        //console.log("book: "+ (req.body.copies))
+        console.log("********************************************************book: "+ (req.body.copies))
 
-        const deleteed = await Copy.destroy({ where: {id:  req.params.id} })
+        const deleteed = await Copy.destroy({ where: {id:  copy.copyID} })
         
         if(deleteed)
         {
-            const deletedBook = await Book.update({copies: book.copies},{ where: { id: book.bookID} })
+            const deletedBook = await Book.update({copies: copy.copies},{ where: { id: copy.bookID} })
             //console.log(book)
             console.log("deleted")
             res.send({deleted: book})

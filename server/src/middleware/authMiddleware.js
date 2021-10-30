@@ -4,7 +4,8 @@ const config = require('../config/config')
 
 const requireAuth = (req, res, next) => {
   const token = req.headers.jwt;
-  console.log("check for session: " + JSON.stringify(req.headers))
+  console.log("########################################check for session: " + JSON.stringify(req.headers))
+  console.log("check for session: " + JSON.stringify(req.body))
   // check json web token exists & is verified
   if (token) 
   {

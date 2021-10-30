@@ -37,10 +37,10 @@ export default
         return Api().put(`burrow`, copy, { headers: { 'jwt': token }});
     }
     ,
-    removeCopy(copy, book,token)// admin
+    removeCopy(book,token)// admin
     {   
-        console.log("TOKENNNNNNNNNNNNN: " + token)
-        return Api().delete(`burrow/${copy}`, {data: {book}}, { headers: { 'jwt': token }});
+        console.log("TOKENNNNNNNNNNNNN: " + book)
+        return Api().delete(`burrow/${JSON.stringify(book)}`, { headers: { 'jwt': token }}, {data: {book}});
     },
     dropBook(copy,token)// // user
     {   

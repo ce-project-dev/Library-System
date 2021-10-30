@@ -149,7 +149,7 @@ export default {
          //console.log(copyID)
           try
             {
-                const response = await BookServices.removeCopy(copyID, {copyID: copyID, bookID: this.book.id, copies: (this.book.copies - 1)}, this.$store.state.token)
+                const response = await BookServices.removeCopy({copyID: copyID, bookID: this.book.id, copies: (this.book.copies - 1)}, this.$store.state.token)
             }
           catch (error)
             {
