@@ -94,13 +94,11 @@ export default {
           }
         )
           this.$store.dispatch('setToken', response.data.token)
-          this.$store.dispatch('setToken', response.data.user.fname)
-          this.$store.dispatch('setToken', response.data.user.lname)
           this.$store.dispatch('setUser', response.data.user)
           this.$store.dispatch('setRole', response.data.user.role)
           this.$store.dispatch('setBooks', response.data.results)
           this.$store.dispatch('setDueDates', response.data.due)
-          console.log("Token :" + response.data.token)
+          console.log("Token :" + this.$store.state.token)
 
           if(response.data.user.role == 'admin')
           {

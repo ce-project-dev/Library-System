@@ -7,7 +7,7 @@ module.exports = (app) =>
 {
     app.post('/register',policies.register, authController.register)    // all
     app.post('/login', authController.login)    // all
-    app.post('/books', requireAuth, checkadmin, bookController.storeBook)    // admin
+    app.post('/books', bookController.storeBook)    // admin
     app.post('/burrow/:id', requireAuth, checkuser, bookController.burrowBook) /// user
 
     app.get('/books',  bookController.getBooks) // all
