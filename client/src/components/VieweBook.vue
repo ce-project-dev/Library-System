@@ -1,5 +1,15 @@
 <template>
   <div>
+
+    <div>
+      <b-col>
+        <b-card
+          :title= "book.title"
+        >
+        </b-card>
+      </b-col>
+    </div>
+
     <panel title = Availability>
 
 
