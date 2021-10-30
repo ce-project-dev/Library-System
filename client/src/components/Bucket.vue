@@ -31,7 +31,7 @@
                  <br> <br>
                 <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
                    
-                 <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user') && ($store.state.books.length == 1) && (copies.length != 1)"  class="burrowBook" vs-type="filled" @click ="dropBook()">
+                 <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user') && ($store.state.books.length == 1) && (copies.length == 0) "  class="burrowBook" vs-type="filled" @click ="dropBook()">
                      Drop Book 
                 </vs-button>
 
@@ -70,7 +70,7 @@ export default {
         return{
             results: {},
             books: [],
-            copies: [],
+            copies: null,
             burrows: {}
         }
     },
@@ -91,7 +91,7 @@ export default {
    
         if(this.$store.state.books.length == 1)
         {
-            this.copies = [(await  BookServices.burrowedCopies ({userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})).data.lended]
+            this.copies = (await  BookServices.burrowedCopies ({userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})).data.lended
             console.log("current copies: " + this.copies)
         }
     
