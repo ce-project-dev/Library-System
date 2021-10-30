@@ -8,7 +8,80 @@ const jwt = require('jsonwebtoken');
 module.exports = {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+async getLended(req, res)
+   {
+        async function getIDS() 
+       {  
+      
 
+    
+      var lended = await  Copy.findAll({where: {lended: true, userID: req.params.id}})
+
+ 
+      
+      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+      console.log("lended: " + JSON.stringify(lended))
+      return Promise.resolve(lended[0].bookID);
+    }
+    getIDS().then(
+     async function getBook(bookID) 
+     {  
+        try
+        {
+                
+          const results = await  Book.findAll({where: { id: bookID}, distinct: 'id'})
+                     
+          res.send({books: results})
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+        
+      })
+   },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async getLenders(req, res)
+   {
+        async function getIDS() 
+       {  
+       var conditions1 = []
+       let users = null
+  
+      var lended = await  Copy.findAll({where: {lended: true}})
+
+      t1 = 0
+      lended.forEach(function(book)
+                    {    
+                        conditions1[t1] = {id: book.userID}
+                        t1++                      
+                    });  
+      
+      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+
+      return Promise.resolve(conditions1);
+    }
+    getIDS().then(
+     async function getusers(conditions1) 
+     {  
+        console.log(conditions1)
+        try
+        {
+                
+          const results = await  User.findAll({where: { [Op.or]: conditions1}, distinct: 'id'})
+                     
+          res.send({books: results})
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+        
+      })
+   },
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async addCopy(req, res)
 {   
     console.log("headers :" + JSON.stringify(req.headers.jwt));
