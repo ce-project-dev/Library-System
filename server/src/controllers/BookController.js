@@ -1,9 +1,41 @@
 const {User, Book, Copy, Burrow, Tag} = require('../models')
 const config = require('../config/config')
 const { Op } = require("sequelize");
+const jwt = require('jsonwebtoken');
+
 
 
 module.exports = {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+async addCopy(req, res)
+{   
+    console.log("headers :" + JSON.stringify(req.headers.jwt));
+     const token = req.headers.jwt;
+    jwt.verify(token, config.authentication.jwtSecret , (err, decodedToken) => {
+      if (err) 
+      {
+        console.log(err.message);
+      } 
+      else 
+      {
+        console.log("token " +  JSON.stringify(decodedToken.role));
+        //next();
+      }
+    });
+   
+     try
+         {           
+            res.send({lended: "copy"}) 
+         }
+    catch(err)
+          { 
+            res.send({lended: copy}) 
+             console.log(err)
+         }
+},
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async getBurrowedCopies(req, res)
 {   

@@ -10,52 +10,65 @@ export default
     {
         return Api().get(`books/${id}`)
     },
-    createBook(book)
+    createBook(book,token) // admin
     {
-        return Api().post('books', book)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().post('books', book, { headers: { 'jwt': token }});
     },
     searchBook(book)
     {
         return Api().get('bytags')
     },
-    burrow (credentials, id)
+    burrow (credentials, id,token) // user
     {   
+        console.log("TOKENNNNNNNNNNNNN: " + token)
         let url = 'burrow/' + id
-        return Api().post(url, credentials)
+        return Api().post(url, credentials, { headers: { 'jwt': token }});
     },
-    burrowedBooks (id)
+    burrowedBooks (id,token) // user
     {   
+        console.log("TOKENNNNNNNNNNNNN: " + token)
         let url = 'burrowed/'+id
-        return Api().get(url)
+        return Api().get(url, { headers: { 'jwt': token }});
     },
-    returnCopy(copy)
+    returnCopy(copy,token) // admin
     {   
-        console.log(copy)
-        return Api().put(`burrow`, copy)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().put(`burrow`, copy, { headers: { 'jwt': token }});
     }
     ,
-    removeCopy(copy, book)
+    removeCopy(copy, book,token)// admin
     {   
-        console.log(book)
-        return Api().delete(`burrow/${copy}`, {data: {book}})
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().delete(`burrow/${copy}`, {data: {book}}, { headers: { 'jwt': token }});
     },
-    dropBook(copy)
+    dropBook(copy,token)// // user
     {   
-        console.log(copy)
-        return Api().put(`drop`, copy)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().put(`drop`, copy, { headers: { 'jwt': token }});
     },
-    lendCopy(copyID)
+    lendCopy(copyID, token) //admin
     {
-        return Api().put(`lend/${copyID}`)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        let url = 'lend/'+copyID
+        return Api().put(url, { headers: { 'jwt': token }});
     },
-    returnBook(copy)
+    returnBook(copy,token) // admin
     {
-        return Api().put(`return`, copy)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        let url = 'return/'+copy
+        return Api().put(url, { headers: { 'jwt': token }});
     },
-    burrowedCopies (book)
+    burrowedCopies (book,token)// user
     {
-        return Api().get(`burrowedCopies/${JSON.stringify(book)}`)
+        console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().get(`burrowedCopies/${JSON.stringify(book)}`, { headers: { 'jwt': token }});
+    },
+    addCopy(token) // admin
+    {
+       console.log("TOKENNNNNNNNNNNNN: " + token)
+        return Api().get(`addCopy`, { headers: { 'jwt': token }});
     }
-
+   
 }
 

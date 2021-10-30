@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {sync} from 'vuex-router-sync'
+import VueCookies from 'vue-cookies';
 
 import { Plugin } from 'vue-responsive-video-background-player'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -16,7 +17,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
-
+Vue.use(VueCookies);
 Vue.use(Plugin);
 
 

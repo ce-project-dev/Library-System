@@ -118,7 +118,7 @@ export default {
         console.log("client: "+ this.$store.getters.getState.user.id)
       try
       {
-           const response = await BookServices.burrow( {userID: this.$store.getters.getState.user.id, bookID: this.book.id}, cID)
+           const response = await BookServices.burrow( {userID: this.$store.getters.getState.user.id, bookID: this.book.id}, cID, this.$store.state.token)
       }
       catch (error)
       {
@@ -136,7 +136,7 @@ export default {
          //const id = this.book.id
           try
             {
-                const response = await BookServices.returnCopy({bookID:  this.book.id, copyID: copyID, userID: userID})
+                const response = await BookServices.returnCopy({bookID:  this.book.id, copyID: copyID, userID: userID}, this.$store.state.token)
             }
           catch (error)
             {
@@ -149,7 +149,7 @@ export default {
          //console.log(copyID)
           try
             {
-                const response = await BookServices.removeCopy(copyID, {copyID: copyID, bookID: this.book.id, copies: (this.book.copies - 1)})
+                const response = await BookServices.removeCopy(copyID, {copyID: copyID, bookID: this.book.id, copies: (this.book.copies - 1)}, this.$store.state.token)
             }
           catch (error)
             {
@@ -160,7 +160,7 @@ export default {
        {
           try
             {
-                const response = await BookServices.lendCopy(copyId)
+                const response = await BookServices.lendCopy(copyId, this.$store.state.token)
             }
           catch (error)
             {
@@ -171,7 +171,7 @@ export default {
        {
           try
             {
-                const response = await BookServices.returnBook({bookID:  this.book.id, copyID: copyID, userID: userID})
+                const response = await BookServices.returnBook({bookID:  this.book.id, copyID: copyID, userID: userID}, this.$store.state.token)
             }
           catch (error)
             {

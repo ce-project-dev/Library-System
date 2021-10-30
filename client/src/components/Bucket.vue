@@ -78,7 +78,7 @@ export default {
     {   
         //this.results = {h:"123"}
       
-         this.results = (await  BookServices.burrowedBooks (this.$store.state.user.id)).data
+         this.results = (await  BookServices.burrowedBooks (this.$store.state.user.id, this.$store.state.token)).data
         
 
       //this.copies = this.results.copies
@@ -91,7 +91,7 @@ export default {
    
         if(this.$store.state.books.length == 1)
         {
-            this.copies = (await  BookServices.burrowedCopies ({userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})).data.lended
+            this.copies = (await  BookServices.burrowedCopies ({userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id}, this.$store.state.token)).data.lended
             console.log("current copies: " + this.copies)
         }
     
@@ -107,7 +107,7 @@ async dropBook()
           //console.log("drop :" +this.$store.state.user.id)
         try
         {
-            const response = await BookServices.dropBook( {userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id})
+            const response = await BookServices.dropBook( {userID: this.$store.state.user.id, bookID: this.$store.state.books[0].id}, this.$store.state.token)
         }
         catch (error)
         {

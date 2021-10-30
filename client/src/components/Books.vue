@@ -33,7 +33,7 @@
                 View
                 </vs-button>
                 <br> <br>
-                <vs-button class="viewBook" vs-type="filled" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')">
+                <vs-button class="viewBook" vs-type="filled" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')" @click ="addCopy(book.id)">
                 Add Copy
                 </vs-button>
             </div>
@@ -75,8 +75,19 @@ export default {
       navigateTo(id){
           this.$router.push({ name: 'Book', params: { id } })
 
-      }
-
+      },
+         async addCopy()
+        {
+             try
+            {
+                const response = await BookServices.addCopy(this.$store.state.token)
+            }
+          catch (error)
+            {
+                console.log(error)
+            }
+        }
+ 
     },
     watch: {
         '$route.query.search': {
