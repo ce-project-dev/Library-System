@@ -1,15 +1,62 @@
 <template>
   <div>
 
-    <div>
-      <b-col>
-        <b-card
-          :title= "book.title"
-        >
-        </b-card>
-      </b-col>
-    </div>
+    <div class="col d-flex justify-content-center" >
+            <b-card no-body class="overflow-hodden" style="max-width: 640px;">
+            <b-row class="justify-content-lg-center mb-5" no-gutters align-v="center">
+                <b-col md="6">
+                    <b-card-img :src=book.coverImageURL :alt= book.title class="rounded-0"></b-card-img>
+                </b-col>
+                <b-col md="6">
+                <b-card-body :title = book.title>
+                <b-card-text>
+                    <div class="author">
+                        Written by {{book.author}}
+                    </div>
+                    <div class="edition">
+                        Edition : {{book.edition}} 
+                    </div>
 
+                </b-card-text>
+                <!--<b-row>-->
+                <!--<b-col><b-button variant="success" @click= "navigateTo(book.id)">View</b-button></b-col>-->
+                <!--<b-col><b-button v-if="($store.state.books.length == 0)"  variant="success" @click= "navigateTo(book.id)">Reserve a copy</b-button></b-col>
+                </b-row>-->
+                <b-col><b-button disabled v-if="(this.$store.state.books.length == 1)" variant="danger">You can only reserve a single book</b-button></b-col>
+                </b-card-body>
+                </b-col>
+            </b-row>
+            
+            <b-row class="justify-content-lg-center" no-gutters align-v="center">
+                <div class="mb-2" v-for="(copy,index) in copies" :key="copy.id" >
+                    <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user' && (copy.available)) && ($store.state.books.length < 1)"  class="burrowBook" variant="success" @click ="burrow(copy.id)" >
+                     Burrow This Copy: {{copy.copyID}} index
+                    </b-button>
+
+                     <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (!copy.lended) "  class="burrowBook" varint="primary" @click.once ="lendCopy(copy.id)" >
+                     Lend This Copy: {{copy.copyID}} index
+                    </b-button>
+
+                    <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (copy.lended) && !isHidden_"  class="burrowBook" variant="info" @click ="returnBook(copy.id, copy.userID)" :click="isHidden_=true">
+                     Return This Copy: {{copy.copyID}}
+                    </b-button>
+
+                     <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')"  class="burrowBook" variant="danger" @click ="removeCopy(copy.id)">
+                     Remove This Copy: {{copy.copyID}}
+                    </b-button>
+                  
+
+                    <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (!copy.lended)"  class="burrowBook" variant="primary" @click.once ="restoreCopy(copy.id, copy.userID)" >
+                     Restore This Copy: {{copy.copyID}}
+                    </b-button>
+                    
+
+                </div>
+            </b-row>
+
+            </b-card>
+        </div>
+<!--
     <panel title = Availability>
 
 
@@ -92,6 +139,7 @@
           
         </div>   
     </panel>
+    -->
     <h1></h1>
   </div>
 </template>
@@ -107,11 +155,15 @@ export default {
         return{
             results: {},
             book: {},
-            copies: []
+            copies: [],
+            isHidden:false,
+            isHidden_:false
+
         }
     },
     async mounted()
     {
+      console.log("sjkdhjshd")
       const bookId = this.$store.state.route.params.id
       this.results = (await  BookServices.getBook (bookId)).data
       this.book = this.results.book
@@ -176,6 +228,7 @@ export default {
             {
                 console.log(error)
             }
+            this.$forceUpdate()
        },
        async returnBook(copyID, userID)
        {
@@ -195,6 +248,9 @@ export default {
 
 <style scoped>
 h2.warning{
+  color: rgb(241, 10, 10);
+}
+h5.warning{
   color: rgb(241, 10, 10);
 }
 

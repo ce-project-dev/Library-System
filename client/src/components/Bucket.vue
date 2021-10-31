@@ -1,12 +1,45 @@
 <template>
   <div>
             <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                   <h1>Reserved Books</h1>
+                   <h1>Your Books</h1>
 
             </vs-row>
               <br> <br>
          <div v-for="(book, index) in $store.getters.getState.books" :key="book.id">
+
+         <div class="col d-flex justify-content-center" >
+            <b-card no-body class="overflow-hodden" style="max-width: 640px;">
+            <b-row class="justify-content-lg-center" no-gutters align-v="center">
+                <b-col md="6">
+                    <b-card-img :src=book.coverImageURL :alt= book.title class="rounded-0"></b-card-img>
+                </b-col>
+                <b-col md="6">
+                <b-card-body :title = book.title>
+                <b-card-text>
+                    <div>Due date : {{$store.getters.getState.dueDates[index]}}</div>
+                    <div class="author">
+                        Written by {{book.author}}
+                    </div>
+                    <div class="edition">
+                        Edition : {{book.edition}} 
+                    </div>
+
+                </b-card-text>
+                <b-row>
+                
+                <b-col><b-button 
+                  v-if="$store.state.isLoggedin && ($store.state.role == 'user') && ($store.state.books.length == 1) && (copies.length == 0)" 
+                  variant="danger" 
+                  @click= "dropBook()">Drop Book</b-button></b-col>
+                </b-row>
+                
+                </b-card-body>
+                </b-col>
+            </b-row>
+            </b-card>
+        </div>
          
+         <!--
         <panel>
             <vs-row>
             <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
@@ -48,7 +81,7 @@
             </vs-row>
              
          </panel>
-
+  -->
         <br>
         </div>
 

@@ -25,8 +25,8 @@
 
                 </b-card-text>
                 <b-row>
-                <b-col><b-button variant="success" @click= "navigateTo(book.id)">View</b-button></b-col>
-                <b-col><b-button variant="warning" @click= "navigateTo(book.id)">Reserve</b-button></b-col>
+                <!--<b-col><b-button variant="success" @click= "navigateTo(book.id)">View</b-button></b-col>-->
+                <b-col><b-button v-if="($store.state.books.length == 0)"  variant="success" @click= "navigateTo(book.id)">Reserve a copy</b-button></b-col>
                 </b-row>
                 
                 </b-card-body>
@@ -86,6 +86,7 @@
 import Panel from './Panel.vue'
 import BookServices from '@/services/BookServices'
 import Pages from './Pages.vue'
+
 export default {
 
     components: {

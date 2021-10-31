@@ -81,7 +81,7 @@ const checkuser = (req, res, next) => {
       else 
       {
         let user = decodedToken;
-        console.log(user.role && user.isVerified);
+        console.log(user.role);
         if (user.role.toString() == "user") 
         {
           next();
