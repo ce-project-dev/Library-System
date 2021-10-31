@@ -5,6 +5,10 @@
 
             </vs-row>
               <br> <br>
+        <div>
+            <b-table :items=""
+        </div>
+        <!--
         <div v-for="book in books" :key="book.id">
   
         <div class="col d-flex justify-content-center" >
@@ -33,7 +37,7 @@
                 </b-col>
             </b-row>
             </b-card>
-        </div>
+        </div> -->
     </div>
 </template>
 

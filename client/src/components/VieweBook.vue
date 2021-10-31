@@ -27,6 +27,8 @@
                 </b-col>
             </b-row>
             
+
+
             <b-row class="justify-content-lg-center" no-gutters align-v="center">
                 <div class="mb-2" v-for="(copy,index) in copies" :key="copy.id" >
                     <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user' && (copy.available)) && ($store.state.books.length < 1)"  class="burrowBook" variant="success" @click ="burrow(copy.id)" >
