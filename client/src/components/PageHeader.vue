@@ -10,14 +10,12 @@
       <div slot="title">
 
         <vs-navbar-title>
-
           <router-link v-bind:to="{ path: '/root'}" color="white">Library System</router-link>
-
         </vs-navbar-title>
       </div>
 
       <vs-navbar-item index="0" >
-        <a href="/#/root">Home</a>
+        <a href="/#/root" v-if="$store.state.isLoggedin">Home</a>
       </vs-navbar-item>
 
       <vs-navbar-item index="1">
@@ -25,7 +23,7 @@
       </vs-navbar-item>
 
       <vs-navbar-item index="2">
-        <router-link v-if="!$store.state.isLoggedin" to="signup">Sign Up!</router-link>
+        <router-link v-if="!$store.state.isLoggedin" to="register">Sign Up!</router-link>
       </vs-navbar-item>
 
       <vs-navbar-item index="3">

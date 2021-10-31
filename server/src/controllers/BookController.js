@@ -1,12 +1,262 @@
 const {User, Book, Copy, Burrow, Tag} = require('../models')
 const config = require('../config/config')
 const { Op } = require("sequelize");
+const jwt = require('jsonwebtoken');
+
 
 
 module.exports = {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async getLended(req, res)
+   {
+        async function getIDS() 
+       {  
+      
+
+    
+      var lended = await  Copy.findAll({where: {lended: true, userID: req.params.id}})
+
+ 
+      
+      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+      console.log("lended: " + JSON.stringify(lended))
+      return Promise.resolve(lended[0].bookID);
+    }
+    getIDS().then(
+     async function getBook(bookID) 
+     {  
+        try
+        {
+                
+          const results = await  Book.findAll({where: { id: bookID}, distinct: 'id'})
+                     
+          res.send({books: results})
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+        
+      })
+   },
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+async getLenders(req, res)
+   {
+        async function getIDS() 
+       {  
+       var conditions1 = []
+       let users = null
+  
+      var lended = await  Copy.findAll({where: {lended: true}})
+
+      t1 = 0
+      lended.forEach(function(book)
+                    {    
+                        conditions1[t1] = {id: book.userID}
+                        t1++                      
+                    });  
+      
+      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+
+      return Promise.resolve(conditions1);
+    }
+    getIDS().then(
+     async function getusers(conditions1) 
+     {  
+        console.log(conditions1)
+        try
+        {
+                
+          const results = await  User.findAll({where: { [Op.or]: conditions1}, distinct: 'id'})
+                     
+          res.send({books: results})
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+        
+      })
+   },
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async addCopy(req, res)
+{   
+    console.log("headers :" + JSON.stringify(req.headers.jwt));
+     const token = req.headers.jwt;
+    jwt.verify(token, config.authentication.jwtSecret , (err, decodedToken) => {
+      if (err) 
+      {
+        console.log(err.message);
+      } 
+      else 
+      {
+        console.log("token " +  JSON.stringify(decodedToken.role));
+        //next();
+      }
+    });
+   
+     try
+         {           
+            res.send({lended: "copy"}) 
+         }
+    catch(err)
+          { 
+            res.send({lended: copy}) 
+             console.log(err)
+         }
+},
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async getBurrowedCopies(req, res)
+{   
+    console.log("bodyyyyyyyyyyy: " + (JSON.parse(req.params.id).userID))
+    const conditions = JSON.parse(req.params.id)
+     try
+         {
+            const copy = await  Copy.findAll({where: {bookID: conditions.bookID, userID: conditions.userID, lended: true} })  
+            res.send({lended: copy}) 
+         }
+    catch(err)
+          { 
+            //res.send({lended: copy}) 
+             console.log(err)
+         }
+}
+,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async lendCopy(req, res)
+{       
+    console.log("lend: "+ req.params.id )
+    try
+    {
+         const copy = await Copy.update({lended: true},{ where: { id: req.params.id } } )
+         res.send({lend: copy})
+    }
+
+    catch(error)
+    {
+        console.log("Lending error: "+ error)
+        res.status(500).send({error: "error occured when lending the book"})
+    }
+}
+    
+,
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async dropBook(req, res)
+   {
+         try
+            {
+
+             console.log("copy: "+ req.body.bookID)
+             console.log("user: "+ req.body.userID)
+             
+
+                const book = await Burrow.update(
+                    {returned: true},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, returned: false} }
+                  )
+
+                await Copy.update(
+                    {available: true, userID: null},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, available: false} }
+                  )
+
+                console.log("book dropped from bucket")
+                res.send({message: "book dropped from bucket"})
+            }
+        catch(err)
+            {
+                console.log("Book drop error "+ err)
+                res.status(500).send({error: "error occured when droppin the book"})
+            }
+   },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async getBurrowed(req, res)
+   {
+
+      let ids = []
+      let dueDates = []
+                    async function getBurrows() 
+                       {  
+                       
+                  
+                       burrows = await Burrow.findAll({where: {userID: req.params.id,returned: false} })
+
+                           
+                       
+                        burrows.forEach(function(burrow)
+                                      {    
+                                          console.log("USER ID: "+ req.params.id)
+                                          var obj = {id: burrow.dataValues.bookID}
+                                          console.log( JSON.stringify(burrow.dataValues.inDate) )
+                                          dueDates.push( ((JSON.stringify(burrow.dataValues.inDate)).split('T')[0]).split('"')[1])
+                                          ids.push(obj)
+                                                             
+                                      });
+                      
+                      //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
+                      console.log("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+                      console.log(ids)
+
+                      return Promise.resolve(ids);
+                    }
+                    getBurrows().then(
+                     async (ids) => 
+                     {
+
+                       let results = null
+                        try
+                        {
+                             results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
+                             console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                             console.log(ids)
+                        }
+                        catch(error)
+                        {
+                          console.log("hereee: "+ error)
+                        }
+
+                          res.send({results: results, due: dueDates })
+
+                      /*
+                        try{
+                                var books = await  Book.findAll({where: { 
+                                [Op.or]: ['title', 'author'].map(key =>  ({
+                                    [key]: {[Op.like]: `%${req.params.id}%`}
+                                }))
+                            }
+                        })
+
+                      t3 = 0
+                      books.forEach(function(book)
+                                    {    
+                                        var obj = {id: book.id}
+                                        ids.push(obj)
+                                        t3++                      
+                                    });
+
+                        const results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
+                        
+                        res.send({books: results})
+                        }
+                        catch(err)
+                        {
+                            console.log(err)
+                        }
+                        */
+                        
+                      }
+                    )
+   },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async getByTags(req, res)
 {   
     const tags = (req.params.id).split(" ");
@@ -111,15 +361,54 @@ async getBurrows(req, res)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async returnBook(req, res)
+async deleteCopy(req, res)
+{
+    console.log("Delete: " + JSON.parse(req.params.id))
+    const copy = JSON.parse(req.params.id)
+    try
+    {   
+        const book = req.body.book
+        console.log("********************************************************book: "+ (req.body.copies))
+
+        const deleteed = await Copy.destroy({ where: {id:  copy.copyID} })
+        
+        if(deleteed)
+        {
+            const deletedBook = await Book.update({copies: copy.copies},{ where: { id: copy.bookID} })
+            //console.log(book)
+            console.log("deleted")
+            res.send({deleted: book})
+        }
+        else
+        {
+           
+        console.log("deleted")
+        res.send({err: "deletion failed"})
+        }
+
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(500).send({error: "error occured when deleting a copy"})
+    }
+
+},
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async restoreCopy(req, res)
    {
         try
             {
-                const copy = req.params.id  //burrowing id not copy id or user id
-                console.log("returned: "+copy)
+
+             //console.log("copy: "+ req.body.bookID)
+             //console.log("user: "+ req.body.userID)
+             
+
                 const book = await Burrow.update(
                     {returned: true},
-                    { where: { id: req.params.id} }
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, returned: false, copyID: req.body.copyID} }
                   )
 
                 await Copy.update(
@@ -139,16 +428,49 @@ async returnBook(req, res)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async burrowBook(req, res)
-   {    console.log("burrow")
+async returnBook(req, res)
+   {
         try
-            {   
-                console.log("burrow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + req.body)
+            {
+
+             //console.log("copy: "+ req.body.bookID)
+             //console.log("user: "+ req.body.userID)
+             
+
+                const book = await Burrow.update(
+                    {returned: true},
+                    { where: { bookID: req.body.bookID, userID: req.body.userID, returned: false, copyID: req.body.copyID} }
+                  )
+
+                await Copy.update(
+                    {available: true, userID: null, lended: false},
+                    { where: { id: req.body.copyID} }
+                  )
+
+                console.log("book returned: ")
+                res.send({message: "book returned"})
+            }
+        catch(err)
+            {
+                console.log("Burrow return error "+ err)
+                res.status(500).send({error: "error occured when returning the book"})
+            }
+   },
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async burrowBook(req, res)
+   {
+        try
+            {
                 const copy = req.params.id
-
                 const user = req.body.userID
+                const bookID = req.body.bookID
 
-                const burrow = await Burrow.create({copyID: copy, userID: user, inDate: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)})
+                console.log("UserID: "+ user)
+                console.log("CopyID: "+ copy)
+                console.log("BookID: "+ bookID)
+
+                const burrow = await Burrow.create({copyID: copy, bookID: bookID, userID: user, inDate: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)})
 
                 await Copy.update(
                     {available: false, userID: user},
@@ -201,7 +523,7 @@ async burrowBook(req, res)
                     const conditions3 = []
 
                 async function getIDS() 
-                       {  
+                       { 
                         t1 = 0
                         tags.forEach( function(tag) 
                         {
@@ -291,7 +613,7 @@ async burrowBook(req, res)
             {
                 try
                 {
-                    const copy = await Copy.create({bookID: id, userID: null, title: title})
+                    const copy = await Copy.create({bookID: id, copyID:  JSON.stringify(i + 1) , userID: null})
                     console.log("store a copy: "+ copy)
                 }
             catch(err)
@@ -350,7 +672,7 @@ async burrowBook(req, res)
                         //console.log(book)
                         try
                         {
-                                 copies = await  Copy.findAll({where: {bookID: book.id, available: true} })   
+                                 copies = await  Copy.findAll({where: {bookID: book.id} })   
                                  res.send({"book": book, "copies": copies})                   
                         }
                         catch(err)

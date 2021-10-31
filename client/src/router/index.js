@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Bucket from '@/components/Bucket'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Books from '@/components/Books'
 import CreateBook from '@/components/CreateBook'
 import VieweBook from '@/components/VieweBook'
 import Restricted from '@/components/Restricted'
-
+import Signup from '@/components/Signup'
+import Lenders from '@/components/Lenders'
 //import PageHeader from '@/components/pageHeader'
 import Test from '@/components/Test'
 import Test2 from '@/components/Test2'
-import Signup from '@/components/Signup' 
 Vue.use(Router)
 
 import store from '@/store/store.js'
@@ -22,8 +22,8 @@ const router = new Router({
  routes: [
     {
       path: '/root',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Bucket',
+      component: Bucket
     },{
       path: '/register',
       name: 'Register',
@@ -57,12 +57,21 @@ const router = new Router({
       path: '/test2',
       name: 'Test2',
       component: Test2
-    }
-    ,{
+    },{
       path: '/signup',
       name: 'Signup',
       component: Signup
-    } 
+    },{
+      path: '/lenders',
+      name: 'Lenders',
+      component: Lenders
+    }
+    /*
+    , {
+      path: '/pageHeader',
+      name: 'PageHeader',
+      component: PageHeader
+    } */
 
   ]
 })

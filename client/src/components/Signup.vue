@@ -1,190 +1,162 @@
 <template>
   <div>
-    <h2>Sign Up with your credentials</h2>
-    <b-form @submit="register" v-if=true oninput='up2.setCustomValidity(up2.value!=up.value ?"Passwords do not match":"")'>
-
-      <!--<vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> /-->
-      <div class="container" max-width=50px>
-      
-      <b-form-group
-        id="input-group-1"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.fname"
-          placeholder="First Name"
-          required
-        ></b-form-input>
-      </b-form-group> 
-      <!--<vs-row>
-
-      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">/-->
-       <b-form-group
-        id="input-group-1"
         
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.lname"
-          placeholder="Last Name"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <!--</vs-row>
+  
 
-      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> /-->
-       <b-form-group
-        id="input-group-1"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.enroll"
-          
-          placeholder="Enroll number"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <!--</vs-row>
+        <b-row class="justify-content-md-center" align-h="center"> 
+            <b-col col md="2">
+            <b-form-input v-model = "form.fname" placeholder="First Name">
+            </b-form-input>
+            </b-col>
+        </b-row>
+
+        <b-row class="justify-content-md-center" align-h="center"> 
+            <b-col col md="2">
+            <b-form-input v-model = "form.lname" placeholder="Last Name">
+            </b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-md-center" align-h="center"> 
+            <b-col col md="2">
+            <b-form-input v-model = "form.enroll" placeholder="Enroll Number">
+            </b-form-input>
+            </b-col>
+        </b-row>
+
+        <b-row class="justify-content-md-center" align-h="center"> 
+            <b-col col md="2">
+            <b-form-input
+              id="input-1"
+              v-model="form.email"
+              type="email"
+              placeholder="Email"
+              required
+            ></b-form-input>
+            </b-col>
+        </b-row>
+
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+              <b-form-group
+                id="input-group-1"
+                label-for="password1"
+                :invalid-feedback="passwordInvalidFeedback"
+                :state="state_"
+              >
+              <b-form-input
+                id="password1"
+                v-model="form.password"
+                type="password"
+                placeholder="Password"
+                required
+                name=up
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+        </b-row>
+
+        <b-row class="justify-content-md-center" align-h="center">
+            <b-col col md="2">
+              <b-form-group
+                id="input-group-1"
+                label-for="password1"
+                valid-feedback="Passwords Match"
+                :invalid-feedback="invalidFeedback"
+                :state="state" 
+              >
+              <b-form-input
+                id="password1"
+                v-model="form.c_password"
+                type="password"
+                placeholder="Confirm Password"
+                required
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+        </b-row>
 
 
-      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> /-->
-      <b-form-group
-        id="input-group-1"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Email"
-          required
-        ></b-form-input>
-      </b-form-group>
-       <!--</vs-row>
+      
+      <br>
+      <b-button @click="register" variant="primary">Sign Up</b-button>
+      <div>
+      <transition name="fade">
+        <div class = "error"  v-if="error" v-html='error'/>
+      </transition>
+      </div>
 
-      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> /-->
-      <b-form-group
-        id="input-group-1"
-        label-for="password1"
-      >
-        <b-form-input
-          id="password1"
-          v-model="form.password"
-          type="password"
-          placeholder="Password"
-          required
-          name=up
-        ></b-form-input>
-      </b-form-group>
-      <!--</vs-row>
-
-      <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center"> /-->
-      <b-form-group
-        id="input-group-1"
-        label-for="password2"
-      >
-        <b-form-input
-          id="password2"
-          v-model="form.c_password"
-          type="password"
-          placeholder="Confirm Password"
-          required
-          name=up2
-        ></b-form-input>
-      </b-form-group>
-      <!--</vs-row>-->
-
-      <b-button type="submit" variant="primary">Sign Up</b-button>
-     </div> 
-    </b-form>
-    <div>
-    <transition name="fade">
-      <div class = "error"  v-if="error" v-html='error'/>
-    </transition>
-    </div>
-    <b-card class="mt-3" header="Form Data Result">
+      
+ 
+    <!--<b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
-    </b-card> 
+    </b-card> -->
   </div>
 </template>
 
 <script>
-
-  import AuthenticationService from '@/services/AuthenticationService.js'
-
+import AuthenticationService from '@/services/AuthenticationService.js'
   export default {
     data() {
       return {
         form: {
           fname: '',
           lname: '',
+          enroll: '',
           email: '',
           password: '',
-          c_password:'',
-          enroll: '',
-          error: null
-        }//,
-        // show: true
+          c_password: ''
+        },
+        error: null,
+        show: true
       }
     },
-    
-  /*computed :
-  {
-      perr() {
-        return this.password.length < 8 || this.password.length > 32
+    computed :
+  {  
+    state(){
+      return (this.form.c_password == this.form.password) && this.form.password.length !=0
     },
-    perrorText()
-    {
-        if (this.password.length < 8 && this.password.length != 0)
-        {
-            return 'Password should be at least 8 characters'
-        }
-        else if (this.password.length > 32)
-        {
-            return 'Password should be at most 80 characters'
-        }
-        else
-        return ''
+    state_(){
+      return (this.form.password.length >=8 && this.form.password.length <= 32) || this.form.password.length ==0
     },
-    psuc()
-    {
-      if (this.password.length < 8 || this.password.length > 32)
-        {
-            return false
+    passwordInvalidFeedback(){
+      if (this.form.password.length < 8){ 
+        return "Minimum required password length is 8 characters" 
+      }
+      if( this.form.password.length >32){
+        return "Maximum allowed password length is 32 characters"
+      }
+    },
+    invalidFeedback(){
+      if(this.form.c_password.length >0){
+        if (this.form.password != this.form.c_password){ 
+          return "Passwords do not match" 
         }
-        else
-        {
-            return true
-        }
-    }
+      }
+      else {
+        return null
+      }
+    },
 
-  },*/
+  },
     methods: {
-      
       onSubmit(event) {
         event.preventDefault()
-
         alert(JSON.stringify(this.form))
       },
       async register()
       {
-
         this.error = null
         console.log("reg");
         try
-        {
+        { 
+          console.log("reg");
           const response = await AuthenticationService.register(
           {
-            email : this.form.email,
-            password : this.form.password,
-            fname : this.form.fname,
+            fname: this.form.fname,
             lname: this.form.lname,
-            enroll: this.form.enroll
-
-
+            email : this.form.email,
+            enroll : this.form.enroll,
+            password : this.form.password
           }
         )
           this.$store.dispatch('setToken', response.data.token)
@@ -192,6 +164,7 @@
         }
         catch(error)
         {
+            console.log(error)
 
             if(error.response.data.message)
             {
@@ -203,7 +176,9 @@
             }
 
         }
+        this.$router.push({ path: 'login' })
       }
     }
+    
   }
 </script>

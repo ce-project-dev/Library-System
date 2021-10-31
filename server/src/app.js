@@ -6,6 +6,17 @@ var bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
+const cookieSession = require('cookie-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+
+const rateLimit = require('express-rate-limit')
+
+const limiter = rateLimit({
+  windowMs: 15*60*1000,
+  max:100
+})
+
 const app = express()
 
 //app.use(morgan('combine'))
@@ -14,10 +25,18 @@ app.use(cors())
 
 const {sequelize} = require('./models')
 
+app.use(limiter)
 
+app.use(cookieSession({
+    name: 'mysession',
+    keys: ['vueauthrandomkey'],
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes')(app)
-//{force: true} 
+//{force: true}
 sequelize.sync()
 .then(() => {
   app.listen(port, () => {
