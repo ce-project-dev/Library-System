@@ -10,6 +10,12 @@ const cookieSession = require('cookie-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
+const rateLimit = require('express-rate-limit')
+
+const limiter = rateLimit({
+  windowMs: 15*60*1000,
+  max:100
+})
 
 const app = express()
 
@@ -19,7 +25,7 @@ app.use(cors())
 
 const {sequelize} = require('./models')
 
-
+app.use(limiter)
 
 app.use(cookieSession({
     name: 'mysession',

@@ -16,8 +16,8 @@ module.exports = (app) =>
     app.get('/copy', requireAuth, bookController.getCopies)// login
     app.get('/burrowed/:id', requireAuth, bookController.getBurrowed)// login
     app.get('/burrowedCopies/:id', requireAuth, bookController.getBurrowedCopies)
-    app.get('/lenders',  bookController.getLenders)
-    app.get('/lended/:id',  bookController.getLended)
+    app.get('/lenders',requireAuth,checkadmin, bookController.getLenders)
+    app.get('/lended/:id', requireAuth,checkadmin, bookController.getLended)
 
     app.get('/byname/:id', bookController.getByName) // all
     app.get('/byauthor/:id', bookController.getByAuthor) // all
