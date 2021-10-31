@@ -68,6 +68,9 @@ export default
     {
        console.log("TOKENNNNNNNNNNNNN: " + token)
         return Api().get(`addCopy`, { headers: { 'jwt': token }});
+    },
+    getLenders(token){
+        return Api().get(`lenders`,{headers : {'jwt': token}});
     }
    
 }

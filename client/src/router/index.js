@@ -8,7 +8,7 @@ import CreateBook from '@/components/CreateBook'
 import VieweBook from '@/components/VieweBook'
 import Restricted from '@/components/Restricted'
 import Signup from '@/components/Signup'
-
+import Lenders from '@/components/Lenders'
 //import PageHeader from '@/components/pageHeader'
 import Test from '@/components/Test'
 import Test2 from '@/components/Test2'
@@ -61,6 +61,10 @@ const router = new Router({
       path: '/signup',
       name: 'Signup',
       component: Signup
+    },{
+      path: '/lenders',
+      name: 'Lenders',
+      component: Lenders
     }
     /*
     , {

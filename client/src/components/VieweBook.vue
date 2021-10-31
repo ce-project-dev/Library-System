@@ -31,6 +31,18 @@
 
             <b-row class="justify-content-lg-center" no-gutters align-v="center">
                 <div class="mb-2" v-for="(copy,index) in copies" :key="copy.id" >
+
+                    <div>
+                      logged in state = {{$store.state.isLoggedin}}
+                      <br>
+                      role = {{$store.state.role}} 
+                      <br>
+                      available = {{copy.available}}
+                      <br>
+                      lended = {{copy.lended}}
+
+
+                    </div>
                     <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user' && (copy.available)) && ($store.state.books.length < 1)"  class="burrowBook" variant="success" @click ="burrow(copy.id)" >
                      Burrow This Copy: {{copy.copyID}} index
                     </b-button>
@@ -39,7 +51,7 @@
                      Lend This Copy: {{copy.copyID}} index
                     </b-button>
 
-                    <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (copy.lended) && !isHidden_"  class="burrowBook" variant="info" @click ="returnBook(copy.id, copy.userID)" :click="isHidden_=true">
+                    <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (copy.lended) "  class="burrowBook" variant="info" @click.once ="returnBook(copy.id, copy.userID)" >
                      Return This Copy: {{copy.copyID}}
                     </b-button>
 
@@ -157,9 +169,7 @@ export default {
         return{
             results: {},
             book: {},
-            copies: [],
-            isHidden:false,
-            isHidden_:false
+            copies: []
 
         }
     },
