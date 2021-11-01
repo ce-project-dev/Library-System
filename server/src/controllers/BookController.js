@@ -66,7 +66,7 @@ async getLenders(req, res)
     getIDS().then(
      async function getusers(conditions1) 
      {  
-        console.log(conditions1)
+        // console.log(conditions1)
         try
         {
                 
@@ -81,38 +81,11 @@ async getLenders(req, res)
         
       })
    },
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-async addCopy(req, res)
-{   
-    console.log("headers :" + JSON.stringify(req.headers.jwt));
-     const token = req.headers.jwt;
-    jwt.verify(token, config.authentication.jwtSecret , (err, decodedToken) => {
-      if (err) 
-      {
-        console.log(err.message);
-      } 
-      else 
-      {
-        console.log("token " +  JSON.stringify(decodedToken.role));
-        //next();
-      }
-    });
-   
-     try
-         {           
-            res.send({lended: "copy"}) 
-         }
-    catch(err)
-          { 
-            res.send({lended: copy}) 
-             console.log(err)
-         }
-},
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async getBurrowedCopies(req, res)
 {   
-    console.log("bodyyyyyyyyyyy: " + (JSON.parse(req.params.id).userID))
+    // console.log("bodyyyyyyyyyyy: " + (JSON.parse(req.params.id).userID))
     const conditions = JSON.parse(req.params.id)
      try
          {
@@ -202,7 +175,6 @@ async getBurrowed(req, res)
                                       });
                       
                       //const results = await  Book.findAll({where: { [Op.or]: conditions2}, distinct: 'id'})
-                      console.log("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                       console.log(ids)
 
                       return Promise.resolve(ids);
@@ -215,42 +187,15 @@ async getBurrowed(req, res)
                         try
                         {
                              results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
-                             console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                              console.log(ids)
                         }
                         catch(error)
                         {
-                          console.log("hereee: "+ error)
+                          console.log(error)
                         }
 
                           res.send({results: results, due: dueDates })
 
-                      /*
-                        try{
-                                var books = await  Book.findAll({where: { 
-                                [Op.or]: ['title', 'author'].map(key =>  ({
-                                    [key]: {[Op.like]: `%${req.params.id}%`}
-                                }))
-                            }
-                        })
-
-                      t3 = 0
-                      books.forEach(function(book)
-                                    {    
-                                        var obj = {id: book.id}
-                                        ids.push(obj)
-                                        t3++                      
-                                    });
-
-                        const results = await  Book.findAll({where: { [Op.or]: ids}, distinct: 'id'})
-                        
-                        res.send({books: results})
-                        }
-                        catch(err)
-                        {
-                            console.log(err)
-                        }
-                        */
                         
                       }
                     )
@@ -368,8 +313,7 @@ async deleteCopy(req, res)
     try
     {   
         const book = req.body.book
-        console.log("********************************************************book: "+ (req.body.copies))
-
+        
         const deleteed = await Copy.destroy({ where: {id:  copy.copyID} })
         
         if(deleteed)

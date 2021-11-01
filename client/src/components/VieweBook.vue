@@ -32,17 +32,6 @@
             <b-row class="justify-content-lg-center" no-gutters align-v="center">
                 <div class="mb-2" v-for="(copy,index) in copies" :key="copy.id" >
 
-                    <div>
-                      logged in state = {{$store.state.isLoggedin}}
-                      <br>
-                      role = {{$store.state.role}} 
-                      <br>
-                      available = {{copy.available}}
-                      <br>
-                      lended = {{copy.lended}}
-
-
-                    </div>
                     <b-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user' && (copy.available)) && ($store.state.books.length < 1)"  class="burrowBook" variant="success" @click ="burrow(copy.id)" >
                      Burrow This Copy: {{copy.copyID}} index
                     </b-button>
@@ -70,90 +59,7 @@
 
             </b-card>
         </div>
-<!--
-    <panel title = Availability>
 
-
-      
-   
-        <div >
-
-          <panel>
-            <vs-row>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
-                <div>
-                <br>
-
-            <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                    <div class="title">
-                    {{book.title}}
-                </div>
-            </vs-row>
-
-                <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                     <div class="author">
-                    {{book.author}}
-                </div>
-                </vs-row>
-
-                <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                  <div class="edition">
-                    {{book.edition}}
-                </div>
-              <br> <br>
-                 <vs-row vs-type="inline-flex" class = "warning" vs-justify="center" vs-align="center">
-                <div  v-if="(this.$store.state.books.length == 1)">
-                    <h2 class="warning">You already burrowed a Book!</h2>
-                    
-                </div>
-            </vs-row>
-
-                </vs-row>
-               
-            </div>
-
-           </vs-col>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
-               <img class = "coverImageURL" :src="book.coverImageURL" />
-             </vs-col>
-            </vs-row>
-            
-         </panel>
-
-
-        </div>  
-        
-                <div  v-for="(copy) in copies" :key="copy.id" >
-                    <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user' && (copy.available)) && ($store.state.books.length < 1)"  class="burrowBook" vs-type="filled" @click ="burrow(copy.id)">
-                     Burrow This Copy: {{copy.copyID}}
-                    </vs-button>
-
-                     <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (!copy.lended)"  class="burrowBook" vs-type="filled" @click ="lendCopy(copy.id)">
-                     Lend This Copy: {{copy.copyID}}
-                    </vs-button>
-
-                    <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (copy.lended)"  class="burrowBook" vs-type="filled" @click ="returnBook(copy.id, copy.userID)">
-                     Return This Copy: {{copy.copyID}}
-                    </vs-button>
-
-                     <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')"  class="burrowBook" vs-type="filled" @click ="removeCopy(copy.id)">
-                     Remove This Copy: {{copy.copyID}}
-                    </vs-button>
-                  
-
-                    <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'admin') &&  !(copy.available) && (!copy.lended)"  class="burrowBook" vs-type="filled" @click ="restoreCopy(copy.id, copy.userID)">
-                     Restore This Copy: {{copy.copyID}}
-                    </vs-button>
-                       <br><br>
-
-                </div>
-         
-              
-        <div>
-          
-        </div>   
-    </panel>
-    -->
     <h1></h1>
   </div>
 </template>

@@ -39,49 +39,6 @@
             </b-card>
         </div>
          
-         <!--
-        <panel>
-            <vs-row>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
-                <div>
-                <br>
-            <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                    <div class="title">
-                    {{book.title}} {{$store.getters.getState.dueDates[index]}}
-                </div>
-            </vs-row>
-                <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                     <div class="author">
-                    {{book.author}}
-                </div>
-                </vs-row>
-
-                <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                  <div class="edition">
-                    {{book.edition}} {{copies.length}}
-                </div>
-                </vs-row>
-                 <br> <br>
-                <vs-row vs-type="inline-flex" vs-justify="center" vs-align="center">
-                   
-                 <vs-button v-if="$store.state.isLoggedin  && ($store.state.role == 'user') && ($store.state.books.length == 1) && (copies.length == 0) "  class="burrowBook" vs-type="filled" @click ="dropBook()">
-                     Drop Book 
-                </vs-button>
-
-
-                </vs-row>
-
-                <br><br>
-              
-            </div>
-           </vs-col>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
-               <img class = "coverImageURL" :src="book.coverImageURL" />
-             </vs-col>
-            </vs-row>
-             
-         </panel>
-  -->
         <br>
         </div>
 
