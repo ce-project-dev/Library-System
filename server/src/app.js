@@ -26,7 +26,7 @@ app.use(cors())
 const {sequelize} = require('./models')
 
 app.use(limiter)
-
+ 
 app.use(cookieSession({
     name: 'mysession',
     keys: ['vueauthrandomkey'],

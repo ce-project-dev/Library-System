@@ -18,6 +18,8 @@
         <a href="/#/root" v-if="$store.state.isLoggedin">Home</a>
       </vs-navbar-item>
 
+      
+
       <vs-navbar-item index="1">
         <a href="/#/books">Book List</a>
       </vs-navbar-item>
@@ -32,6 +34,9 @@
 
       <vs-navbar-item index="3">
          <router-link v-if="$store.state.isLoggedin" @click.native="logout" v-bind:to="{ path: '/login'}">Logout</router-link>
+      </vs-navbar-item>
+      <vs-navbar-item index="4" >
+        <a href="/#/createBook" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')">Add Book</a>
       </vs-navbar-item>
 
   
