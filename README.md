@@ -6,3 +6,5 @@
 ## run commands,
 ### client: npm run dev
 ### server: node app 
+
+## test file is at Test directory
