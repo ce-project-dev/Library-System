@@ -86,7 +86,7 @@ export default
             }
            try
            {
-               const response = await  BookServices.createBook(this.book)
+               const response = await  BookServices.createBook(this.book,this.$store.state.token)
                console.log(response)
            }
            catch(err)

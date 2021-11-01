@@ -4,8 +4,6 @@ const config = require('../config/config')
 
 const requireAuth = (req, res, next) => {
   const token = req.headers.jwt;
-  console.log("########################################check for session: " + JSON.stringify(req.headers.jwt))
-  console.log("body: " + JSON.stringify(req.body))
   // check json web token exists & is verified
   if (token) 
   {
@@ -14,7 +12,7 @@ const requireAuth = (req, res, next) => {
       {
         console.log(err.message);
         res.status(400);
-        res.send({message: "login"});
+        res.send({message: "Please login"});
       } 
       else 
       {
@@ -26,7 +24,7 @@ const requireAuth = (req, res, next) => {
   else 
   {
   res.status(400);
-   res.send({message: "login"});
+   res.send({message: "Please login first"});
   }
 };
 
@@ -41,12 +39,12 @@ const checkadmin = (req, res, next) => {
       {
         console.log(err.message);
         res.status(400);
-        res.send({message: "login"});
+        res.send({message: "Please login first"});
       } 
       else 
       {
         let user = decodedToken;
-        console.log(user.role && user.isVerified);
+
         if (user.role.toString() == "admin") 
         {
           next();
@@ -61,7 +59,7 @@ const checkadmin = (req, res, next) => {
   } 
   else 
   {
-    res.send({message: "login"});
+    res.send({message: "Please login first"});
   }
 };
 
@@ -76,7 +74,7 @@ const checkuser = (req, res, next) => {
       {
         console.log(err.message);
         res.status(400);
-        res.send({message: "login"});
+        res.send({message: "Please login first"});
       } 
       else 
       {

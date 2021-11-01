@@ -38,6 +38,10 @@
       <vs-navbar-item index="4" >
         <a href="/#/createBook" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')">Add Book</a>
       </vs-navbar-item>
+      <vs-navbar-item index="5" >
+        <a href="/#/lenders" v-if="$store.state.isLoggedin  && ($store.state.role == 'admin')">Show Burrowers</a>
+      </vs-navbar-item>
+
 
   
 
