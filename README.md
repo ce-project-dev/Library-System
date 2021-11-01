@@ -8,4 +8,9 @@
 ## to run server, move to src folder of server
   run 'node app'
 
+##usernames and passwords for testing
+admin@ce.lk adminadmin
+user@ce.lk adminadmin
+user1@ce.lk adminadmin
+
 ## test file is at Test directory
